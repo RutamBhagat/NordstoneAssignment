@@ -22,7 +22,7 @@ const Navbar = () => {
       <div className="container flex rounded flex-wrap items-center justify-between mx-auto">
         <Link href="/" className="flex items-center">
           <img src="https://img.icons8.com/nolan/512/dyndns.png" className="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />
-          <span className="self-center text-xl font-semibold whitespace-nowrap text-white">TableSpot</span>
+          <span className="self-center text-xl font-semibold whitespace-nowrap text-white">Nordstone</span>
         </Link>
         <div className="flex md:order-2">
           <div>

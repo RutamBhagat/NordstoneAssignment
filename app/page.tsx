@@ -1,51 +1,40 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Header from "./components/Header";
-import RestaurantCard from "./components/RestaurantCard";
-import { type PRICE, type Cuisine, type Location, type Review } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
+import axios from "axios";
 
-
-export const metadata = {
-  title: "Table Spot",
-  description: "Find the best restaurants in your area",
+const fetchData = async () => {
+  const res = await axios.get("http://localhost:3000/api/dummy");
+  return res.data.data;
 };
 
-export type RestaurantCardType = {
-  id: number;
-  name: string;
-  main_image: string;
-  slug: string;
-  cuisine: Cuisine;
-  location: Location;
-  price: PRICE;
-  reviews: Review[];
-};
+export default function Home() {
+  const [data, setData] = useState([]);
 
-const fetchRestaurants = async (): Promise<RestaurantCardType[]> => {
-  const restaurants = await prisma.restaurant.findMany({
-    select: {
-      id: true,
-      name: true,
-      main_image: true,
-      slug: true,
-      cuisine: true,
-      location: true,
-      price: true,
-      reviews: true,
-    },
-  });
-  return restaurants;
-};
-
-export default async function Home() {
-  const restaurants = await fetchRestaurants();
+  useEffect(() => {
+    const getData = async () => {
+      const data = await fetchData();
+      setData(data);
+    };
+    getData();
+  }, []);
 
   return (
     <main>
       <Header />
       <div className="py-3 px-36 pt-10 flex flex-wrap justify-center bg-[#0a081a]">
-        {restaurants.map((restaurant) => {
-          // @ts-ignore //
-          return <RestaurantCard key={restaurant.id} restaurant={restaurant} />;
+        {data.map((user: any) => {
+          return (
+            <div key={user.id} className="w-full py-10">
+              <div className="flex flex-col items-center justify-center bg-[#0a081a]">
+                <h1 className="text-white">{user.id}</h1>
+                <h1 className="text-white">{user.userId}</h1>
+                <h1 className="text-white">{user.title}</h1>
+                <h1 className="text-white">{user.completed}</h1>
+              </div>
+            </div>
+          );
         })}
       </div>
     </main>
