@@ -2,6 +2,8 @@
 import React, { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import { ro } from "date-fns/locale";
 
 type User = {
   id: number;
@@ -31,6 +33,8 @@ export const AuthenticationContext = createContext<AuthenticationContextType>({
 });
 
 export default function AuthContext({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+
   const [authState, setAuthState] = useState<State>({
     loading: true,
     data: null,
@@ -52,6 +56,7 @@ export default function AuthContext({ children }: { children: React.ReactNode })
           data: null,
           error: null,
         });
+        router.push("/auth/signin");
         return;
       }
 

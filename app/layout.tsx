@@ -1,8 +1,6 @@
-import Navbar from "./components/Navbar";
 import AuthContext from "./context/AuthContext";
 import "./globals.css";
 import "react-datepicker/dist/react-datepicker.css";
-
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,10 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <main className="bg-[#0a081a] min-h-screen w-screen">
           <AuthContext>
-            <main className="max-w-screen-2xl m-auto bg-[#0a081a]">
-              <Navbar />
-              {children}
-            </main>
+            <main className="max-w-screen-2xl m-auto bg-[#0a081a]">{children}</main>
           </AuthContext>
         </main>
       </body>
