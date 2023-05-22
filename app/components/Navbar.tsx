@@ -46,18 +46,7 @@ const Navbar = () => {
                     Sign Out
                   </button>
                 ) : (
-                  <>
-                    <LoginModal
-                      isLoginHidden={isLoginHidden}
-                      setIsLoginHidden={setIsLoginHidden}
-                      switchModel={switchModel}
-                    />
-                    <SignUpModal
-                      isSignUpHidden={isSignUpHidden}
-                      setIsSignUpHidden={setIsSignUpHidden}
-                      switchModel={switchModel}
-                    />
-                  </>
+                  <></>
                 )}
               </div>
             )}

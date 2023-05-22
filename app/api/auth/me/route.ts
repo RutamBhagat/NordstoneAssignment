@@ -20,11 +20,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
     where: { email: payload.email },
     select: {
       id: true,
-      first_name: true,
-      last_name: true,
-      city: true,
       email: true,
-      phone: true,
       created_at: true,
       updated_at: true,
     },
@@ -37,11 +33,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
   return NextResponse.json(
     {
       id: user.id,
-      firstName: user.first_name,
-      lastName: user.last_name,
       email: user.email,
-      phone: user.phone,
-      city: user.city,
     },
     { status: 200 }
   );
