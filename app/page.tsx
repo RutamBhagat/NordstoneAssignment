@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import axios from "axios";
 
 const fetchData = async () => {
-  const res = await axios.get("http://localhost:3000/api/dummy");
+  const res = await axios.get("/api/dummy");
   return res.data.data;
 };
 
