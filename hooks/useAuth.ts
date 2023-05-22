@@ -29,26 +29,12 @@ const useAuth = () => {
         data: null,
         error: error.response.data.errorMessage,
       });
-      console.log('error.response.data.errorMessage', error.response.data.errorMessage)
+      console.log("error.response.data.errorMessage", error.response.data.errorMessage);
       throw new Error("Error signing in");
     }
   };
 
-  const signUp = async ({
-    firstName,
-    lastName,
-    email,
-    password,
-    phone,
-    city,
-  }: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    phone: string;
-    city: string;
-  }) => {
+  const signUp = async ({ email, password }: { email: string; password: string }) => {
     setAuthState({
       loading: true,
       data: null,
@@ -56,12 +42,8 @@ const useAuth = () => {
     });
     try {
       const response = await axios.post("/api/auth/signup", {
-        firstName,
-        lastName,
         email,
         password,
-        phone,
-        city,
       });
       setAuthState({
         loading: false,
@@ -86,12 +68,12 @@ const useAuth = () => {
       data: null,
       error: null,
     });
-  }
+  };
 
   return {
     signIn,
     signUp,
-    signOut
+    signOut,
   };
 };
 

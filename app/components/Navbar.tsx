@@ -5,8 +5,10 @@ import React, { useContext, useState } from "react";
 import { AuthenticationContext } from "../context/AuthContext";
 import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
   const [isLoginHidden, setIsLoginHidden] = useState(true);
   const [isSignUpHidden, setIsSignUpHidden] = useState(true);
   const { loading, data } = useContext(AuthenticationContext);
@@ -15,6 +17,11 @@ const Navbar = () => {
   const switchModel = () => {
     setIsLoginHidden(!isLoginHidden);
     setIsSignUpHidden(!isSignUpHidden);
+  };
+
+  const signOutHandler = () => {
+    signOut();
+    router.push("/auth/signin");
   };
 
   return (
@@ -32,7 +39,7 @@ const Navbar = () => {
               <div className="flex">
                 {data ? (
                   <button
-                    onClick={signOut}
+                    onClick={signOutHandler}
                     className="block p-1 mr-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button"
                   >

@@ -6,18 +6,10 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { firstName, lastName, email, password, phone, city } = body;
+  const { email, password } = body;
 
   // Data validation
   const validationSchema = [
-    {
-      valid: validator.isLength(firstName, { min: 1, max: 20 }),
-      errorMessage: "First name must be between 1 and 20 characters",
-    },
-    {
-      valid: validator.isLength(lastName, { min: 1, max: 20 }),
-      errorMessage: "Last name must be between 1 and 20 characters",
-    },
     {
       valid: validator.isEmail(email),
       errorMessage: "Email is not valid",
@@ -25,14 +17,6 @@ export async function POST(request: NextRequest) {
     {
       valid: validator.isStrongPassword(password),
       errorMessage: "Weak password",
-    },
-    {
-      valid: validator.isMobilePhone(phone),
-      errorMessage: "Phone is not valid",
-    },
-    {
-      valid: validator.isLength(city, { min: 1, max: 20 }),
-      errorMessage: "City name must be between 1 and 20 characters",
     },
   ];
 
@@ -59,12 +43,8 @@ export async function POST(request: NextRequest) {
   //Note try upsert instead of create next time
   const user = await prisma.user.create({
     data: {
-      first_name: firstName,
-      last_name: lastName,
       email: email,
       password: hashedPassword,
-      phone: phone,
-      city: city,
     },
   });
 
@@ -79,11 +59,7 @@ export async function POST(request: NextRequest) {
 
   const response = NextResponse.json(
     {
-      firstName: user.first_name,
-      lastName: user.last_name,
       email: user.email,
-      phone: user.phone,
-      city: user.city,
     },
     { status: 200 }
   );

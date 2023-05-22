@@ -133,9 +133,6 @@ const SignUpModal = ({
                 </button>
                 <div className="px-6 py-6 lg:px-8">
                   <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Sign up on OpenTable</h3>
-                  <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-                    {data?.firstName} {data?.lastName}
-                  </h3>
                   {error && (
                     <div
                       id="alert-2"
