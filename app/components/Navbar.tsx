@@ -3,8 +3,6 @@ import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { AuthenticationContext } from "../context/AuthContext";
-import LoginModal from "./LoginModal";
-import SignUpModal from "./SignUpModal";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {

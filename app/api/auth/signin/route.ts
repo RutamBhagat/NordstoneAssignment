@@ -54,11 +54,7 @@ export async function POST(request: NextRequest) {
 
   const response = NextResponse.json(
     {
-      firstName: user.first_name,
-      lastName: user.last_name,
       email: user.email,
-      phone: user.phone,
-      city: user.city,
     },
     {
       status: 200,
