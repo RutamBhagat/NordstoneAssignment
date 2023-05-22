@@ -25,7 +25,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
       city: true,
       email: true,
       phone: true,
-      reviews: true,
       created_at: true,
       updated_at: true,
     },
