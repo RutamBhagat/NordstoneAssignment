@@ -61,6 +61,34 @@ const useAuth = () => {
     }
   };
 
+  const resetPassword = async ({ email, password }: { email: string; password: string }) => {
+    setAuthState({
+      loading: true,
+      data: null,
+      error: null,
+    });
+    try {
+      const response = await axios.post("/api/auth/resetPassword", {
+        email,
+        password,
+      });
+      setAuthState({
+        loading: false,
+        data: response.data,
+        error: null,
+      });
+      return response.data;
+    } catch (error: any) {
+      setAuthState({
+        loading: false,
+        data: null,
+        error: error.response.data.errorMessage,
+      });
+      console.log("error.response.data.errorMessage", error.response.data.errorMessage);
+      throw new Error("Error changing password");
+    }
+  };
+
   const signOut = async () => {
     deleteCookie("jwt");
     setAuthState({
@@ -74,6 +102,7 @@ const useAuth = () => {
     signIn,
     signUp,
     signOut,
+    resetPassword,
   };
 };
 

@@ -146,7 +146,7 @@ export default function page() {
           <div className="group relative items-center justify-center m-3 overflow-hidden shadow-xl rounded-2xl w-1/2 hidden md:flex">
             <img
               src="https://images.unsplash.com/photo-1533162507191-d90c625b2640?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3087&q=80"
-              className="absolute w-full h-full transition-all duration-500 ease-in-out transform bg-center bg-cover hover:scale-150 group-hover:scale-150"
+              className="absolute w-full h-full transition-all duration-500 ease-in-out transform object-center object-cover hover:scale-150 group-hover:scale-150"
             ></img>
             <h1 className="absolute cursor-default text-5xl font-black transition-all duration-500 ease-in-out transform scale-150 text-gray-50 opacity-60 text-center hover:scale-100 group-hover:scale-100">
               NORD

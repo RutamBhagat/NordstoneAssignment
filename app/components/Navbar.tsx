@@ -4,18 +4,14 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { AuthenticationContext } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const router = useRouter();
-  const [isLoginHidden, setIsLoginHidden] = useState(true);
-  const [isSignUpHidden, setIsSignUpHidden] = useState(true);
+  const pathname = usePathname();
+
   const { loading, data } = useContext(AuthenticationContext);
   const { signOut } = useAuth();
-
-  const switchModel = () => {
-    setIsLoginHidden(!isLoginHidden);
-    setIsSignUpHidden(!isSignUpHidden);
-  };
 
   const signOutHandler = () => {
     signOut();
@@ -29,6 +25,51 @@ const Navbar = () => {
           <img src="https://img.icons8.com/nolan/512/dyndns.png" className="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-white">Nordstone</span>
         </Link>
+        <div className="block w-auto" id="navbar-default">
+          <ul className="font-medium flex p-0 rounded-lg space-x-8 mt-0 border-0 bg-gray-900 border-gray-700">
+            <li>
+              <Link
+                href="/"
+                className={`${
+                  pathname === "/" ? "text-blue-500" : "text-white"
+                } block rounded border-0 p-0 hover:text-blue-500 md:hover:bg-transparent`}
+                aria-current="page"
+              >
+                Notifications
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/photos"
+                className={`${
+                  pathname === "/photos" ? "text-blue-500" : "text-white"
+                } block rounded border-0 p-0 hover:text-blue-500 md:hover:bg-transparent`}
+              >
+                Photos
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/text"
+                className={`${
+                  pathname === "/text" ? "text-blue-500" : "text-white"
+                } block rounded border-0 p-0 hover:text-blue-500 md:hover:bg-transparent`}
+              >
+                Text
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/calculator"
+                className={`${
+                  pathname === "/calculator" ? "text-blue-500" : "text-white"
+                } block rounded border-0 p-0 hover:text-blue-500 md:hover:bg-transparent`}
+              >
+                Calculator
+              </Link>
+            </li>
+          </ul>
+        </div>
         <div className="flex md:order-2">
           <div>
             {loading ? (

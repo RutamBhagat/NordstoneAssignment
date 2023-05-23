@@ -1,13 +1,13 @@
 "use client";
-import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
-import React, { type ChangeEvent, type FormEvent, useEffect, useState, useContext } from "react";
+import React, { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { AuthenticationContext } from "@/app/context/AuthContext";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const defaultFormFields = {
-  email: "",
   password: "",
+  confirm_password: "",
 };
 
 export default function page() {
@@ -15,11 +15,11 @@ export default function page() {
   const [input, setInput] = useState(defaultFormFields);
   const [isDisabled, setIsDisabled] = useState(true);
   const [showError, setShowError] = useState(false);
-  const { signIn } = useAuth();
+  const { resetPassword } = useAuth();
   const { error } = useContext(AuthenticationContext);
 
   useEffect(() => {
-    if (input.email && input.password) {
+    if (input.password && input.confirm_password) {
       return setIsDisabled(false);
     }
     setIsDisabled(true);
@@ -37,14 +37,13 @@ export default function page() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      const response = await signIn(input);
-      router.push("/");
-      resetFormFields();
-    } catch (error) {
-      setShowError(true);
-      console.log("error", error);
-    }
+    // try {
+    //   const response = await signUp(input);
+    //   resetFormFields();
+    //   router.push("/");
+    // } catch (error) {
+    //   setShowError(true);
+    // }
   };
 
   return (
@@ -94,23 +93,10 @@ export default function page() {
                 </button>
               </div>
             )}
-            <h1 className="text-4xl font-medium">Login</h1>
-            <p className="text-slate-500">Hi, Welcome back</p>
-            <form autoComplete="new-password" onSubmit={handleSubmit} action="" className="mt-10 mb-5">
+            <h1 className="text-4xl font-medium">Forgot Password?</h1>
+            <p className="text-slate-500">Reset your password</p>
+            <form autoComplete="new-password" onSubmit={handleSubmit} action="#" className="mt-10 mb-5">
               <div className="flex flex-col space-y-5">
-                <label htmlFor="email">
-                  <p className="pb-2 font-medium text-slate-700">Email address</p>
-                  <input
-                    required
-                    onChange={handleChange}
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={input.email}
-                    className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
-                    placeholder="Enter email address"
-                  />
-                </label>
                 <label htmlFor="password">
                   <p className="pb-2 font-medium text-slate-700">Password</p>
                   <input
@@ -124,29 +110,34 @@ export default function page() {
                     placeholder="Enter your password"
                   />
                 </label>
-                <div className="flex justify-end">
-                  <Link
-                    href="/auth/forgot_password"
-                    className="inline-flex items-center space-x-1 font-sm text-sm text-violet-800 hover:text-violet-900"
-                  >
-                    <span>Forgot Password</span>
-                  </Link>
-                </div>
+                <label htmlFor="confirm_password">
+                  <p className="pb-2 font-medium text-slate-700">Confirm Password</p>
+                  <input
+                    required
+                    onChange={handleChange}
+                    id="confirm_password"
+                    name="confirm_password"
+                    type="confirm_password"
+                    value={input.confirm_password}
+                    className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
+                    placeholder="Confirm your password"
+                  />
+                </label>
                 <button
                   disabled={isDisabled}
                   className={`${
                     isDisabled ? "bg-violet-500" : "bg-violet-800 hover:bg-violet-900"
                   } inline-flex w-full items-center justify-center space-x-2 rounded-lg border-violet-800 py-3 font-medium text-white hover:shadow`}
                 >
-                  <span>Sign In</span>
+                  <span>Reset Password</span>
                 </button>
                 <p className="text-center">
-                  Not registered yet?{" "}
+                  Want to go back?{" "}
                   <Link
-                    href="/auth/register"
+                    href="/auth/signin"
                     className="inline-flex items-center space-x-1 font-medium text-violet-800 hover:text-violet-900"
                   >
-                    <span>Register now </span>
+                    <span>Sign In </span>
                   </Link>
                 </p>
               </div>
@@ -154,7 +145,7 @@ export default function page() {
           </div>
           <div className="group relative items-center justify-center m-3 overflow-hidden shadow-xl rounded-2xl w-1/2 hidden md:flex">
             <img
-              src="https://images.unsplash.com/photo-1517999144091-3d9dca6d1e43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80"
+              src="https://images.unsplash.com/photo-1494861895304-fb272971c078?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
               className="absolute w-full h-full transition-all duration-500 ease-in-out transform object-center object-cover hover:scale-150 group-hover:scale-150"
             ></img>
             <h1 className="absolute cursor-default text-5xl font-black transition-all duration-500 ease-in-out transform scale-150 text-gray-50 opacity-60 text-center hover:scale-100 group-hover:scale-100">
