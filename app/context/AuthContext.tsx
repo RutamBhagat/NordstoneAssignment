@@ -3,7 +3,7 @@ import React, { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { ro } from "date-fns/locale";
+import { usePathname } from "next/navigation";
 
 type User = {
   id: number;
@@ -34,6 +34,7 @@ export const AuthenticationContext = createContext<AuthenticationContextType>({
 
 export default function AuthContext({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
 
   const [authState, setAuthState] = useState<State>({
     loading: true,
@@ -56,7 +57,11 @@ export default function AuthContext({ children }: { children: React.ReactNode })
           data: null,
           error: null,
         });
-        router.push("/auth/signin");
+        if (pathname === "/auth/forgot_password") {
+          // Dont do any rerouting in this case
+        } else {
+          router.push("/auth/signin");
+        }
         return;
       }
 

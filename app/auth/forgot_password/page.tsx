@@ -4,6 +4,8 @@ import React, { ChangeEvent, FormEvent, useContext, useEffect, useState } from "
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { useSearchParams } from "next/navigation";
 
 const defaultFormFields = {
   password: "",
@@ -12,6 +14,10 @@ const defaultFormFields = {
 
 export default function page() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+
+  const [email, setEmail] = useState("josh@gmail.com");
   const [input, setInput] = useState(defaultFormFields);
   const [isDisabled, setIsDisabled] = useState(true);
   const [showError, setShowError] = useState(false);
@@ -24,6 +30,18 @@ export default function page() {
     }
     setIsDisabled(true);
   }, [input]);
+
+  useEffect(() => {
+    const getEmail = async () => {
+      const response = await axios.get("/api/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setEmail(response.data.email || "");
+    };
+    getEmail();
+  }, []);
 
   const resetFormFields = () => {
     setInput(defaultFormFields);
@@ -39,7 +57,8 @@ export default function page() {
     event.preventDefault();
     try {
       // This is hard coded for now
-      const response = await resetPassword({ ...input, email: "josh@gmail.com" });
+      console.log("{ ...input, email: email }", { ...input, email: email });
+      const response = await resetPassword({ ...input, email: email });
       resetFormFields();
       router.push("/");
     } catch (error) {
@@ -118,7 +137,7 @@ export default function page() {
                     onChange={handleChange}
                     id="confirm_password"
                     name="confirm_password"
-                    type="confirm_password"
+                    type="password"
                     value={input.confirm_password}
                     className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
                     placeholder="Confirm your password"

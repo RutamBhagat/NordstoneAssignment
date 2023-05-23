@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
       errorMessage: "Weak password",
     },
     {
-      valid: password !== confirm_password,
+      valid: password === confirm_password,
       errorMessage: "Passwords do not match",
     },
   ];
@@ -51,9 +51,9 @@ export async function POST(request: NextRequest) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   //update user password in db using prisma client
-  const user = await prisma.user.upsert({
+  const user = await prisma.user.update({
     where: { email: email },
-    update: { password: hashedPassword },
+    data: { password: hashedPassword },
   });
 
   // Token creation using jose library
