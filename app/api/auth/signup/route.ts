@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       errorMessage: "Email is not valid",
     },
     {
-      valid: isTemporaryEmail(email),
+      valid: isTemporaryEmail(email) === false,
       errorMessage: "Do not use a temporary email address",
     },
     {

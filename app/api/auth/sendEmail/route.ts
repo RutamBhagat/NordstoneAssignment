@@ -3,6 +3,7 @@ import validator from "validator";
 import * as jose from "jose";
 import { prisma } from "@/lib/prisma";
 import nodemailer from "nodemailer";
+import { isTemporaryEmail } from "temporary-email-validator";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -13,6 +14,10 @@ export async function POST(request: NextRequest) {
     {
       valid: validator.isEmail(email),
       errorMessage: "Email is not valid",
+    },
+    {
+      valid: isTemporaryEmail(email) === false,
+      errorMessage: "Do not use a temporary email address",
     },
   ];
 
@@ -65,7 +70,7 @@ export async function POST(request: NextRequest) {
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"Assignment Nordstone" <louie.aufderhar@ethereal.email>', // sender address
-    to: email, // list of receivers
+    to: `${email}`, // list of receivers
     subject: "Reset your password", // Subject line
     text: "Reset your password", // plain text body
     html: `
@@ -92,9 +97,8 @@ export async function POST(request: NextRequest) {
   // Preview only available when sending through an Ethereal account
   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 
-  const response = NextResponse.json({ info: info }, { status: 200 });
-
-  response.cookies.set("jwt", token, { maxAge: 24 * 60 * 60 * 6 });
-
-  return response;
+  return NextResponse.json(
+    { info: info, errorMessage: "SUCCESS: Check your email for link to reset password" },
+    { status: 400 }
+  );
 }
