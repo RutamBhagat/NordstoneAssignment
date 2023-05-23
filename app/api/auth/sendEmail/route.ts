@@ -54,9 +54,7 @@ export async function POST(request: NextRequest) {
     .setExpirationTime("24h")
     .sign(secret);
 
-  // Nodemailer part
-  let testAccount = await nodemailer.createTestAccount();
-
+  // NODEMAILER PART
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",

@@ -57,8 +57,8 @@ export default function AuthContext({ children }: { children: React.ReactNode })
           data: null,
           error: null,
         });
-        if (pathname === "/auth/forgot_password") {
-          // Dont do any rerouting in this case
+        if (pathname === "/auth/forgot_password" || pathname === "/auth/check_email" || pathname === "/auth/register") {
+          // Dont do any rerouting in these cases
         } else {
           router.push("/auth/signin");
         }

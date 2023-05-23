@@ -3,14 +3,12 @@ import useAuth from "@/hooks/useAuth";
 import React, { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 const defaultFormFields = {
   email: "",
 };
 
 export default function page() {
-  const router = useRouter();
   const [input, setInput] = useState(defaultFormFields);
   const [isDisabled, setIsDisabled] = useState(true);
   const [showError, setShowError] = useState(false);
@@ -37,7 +35,6 @@ export default function page() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      // @ts-ignore
       const response = await checkEmail(input);
       resetFormFields();
     } catch (error) {
@@ -53,9 +50,11 @@ export default function page() {
             {error && (
               <div
                 id="alert-2"
-                className={`absolute top-2 left-2 right-2 flex p-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 ${
-                  showError ? "" : "hidden"
-                }`}
+                className={`absolute top-2 left-2 right-2 flex p-4 rounded-lg ${
+                  error === "SUCCESS: Check your email for link to reset password"
+                    ? "text-green-800 bg-green-50"
+                    : "text-red-800 bg-red-50"
+                } ${showError ? "" : "hidden"}`}
                 role="alert"
               >
                 <svg
@@ -78,10 +77,13 @@ export default function page() {
                     setShowError(false);
                   }}
                   type="button"
-                  className="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
+                  className={`ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex h-8 w-8  ${
+                    error === "SUCCESS: Check your email for link to reset password"
+                      ? "text-green-800 bg-green-50"
+                      : "text-red-800 bg-red-50"
+                  }`}
                   aria-label="Close"
                 >
-                  <span className="sr-only">Close</span>
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path
                       fillRule="evenodd"
