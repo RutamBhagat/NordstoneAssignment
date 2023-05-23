@@ -1,6 +1,7 @@
 import AuthContext from "./context/AuthContext";
 import "./globals.css";
 import "react-datepicker/dist/react-datepicker.css";
+import QueryWrapper from "./auth/QueryWrapper";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,9 +13,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head />
       <body>
         <main className="bg-[#0a081a] min-h-screen w-screen">
-          <AuthContext>
-            <main className="max-w-screen-2xl m-auto bg-[#0a081a]">{children}</main>
-          </AuthContext>
+          <QueryWrapper>
+            <AuthContext>
+              <main className="max-w-screen-2xl m-auto bg-[#0a081a]">{children}</main>
+            </AuthContext>
+          </QueryWrapper>
         </main>
       </body>
     </html>

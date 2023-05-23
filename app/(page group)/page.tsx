@@ -23,14 +23,13 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
-      <Header />
+    <main className="bg-gradient-to-t from-[#0a081a] to-[#1c1649]">
       <div className="text-white text-lg font-semibold flex justify-center items-center">{auth?.data?.email}</div>
-      <div className="py-3 px-36 pt-10 flex flex-wrap justify-center bg-[#0a081a]">
+      <div className="py-3 px-36 pt-10 flex flex-wrap justify-center">
         {data.map((user: any) => {
           return (
             <div key={user.id} className="w-full py-10">
-              <div className="flex flex-col items-center justify-center bg-[#0a081a]">
+              <div className="flex flex-col items-center justify-center">
                 <h1 className="text-white">{user.id}</h1>
                 <h1 className="text-white">{user.userId}</h1>
                 <h1 className="text-white">{user.title}</h1>

@@ -6,12 +6,9 @@ import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
 type User = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  city: string;
+  id: string;
   email: string;
-  phone: string;
+  posts: any[];
 };
 
 type State = {
@@ -57,9 +54,7 @@ export default function AuthContext({ children }: { children: React.ReactNode })
           data: null,
           error: null,
         });
-        if (pathname === "/auth/forgot_password" || pathname === "/auth/check_email" || pathname === "/auth/register") {
-          // Dont do any rerouting in these cases
-        } else {
+        if (pathname !== "/auth/forgot_password" && pathname !== "/auth/check_email" && pathname !== "/auth/register") {
           router.push("/auth/signin");
         }
         return;
