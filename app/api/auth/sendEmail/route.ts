@@ -59,20 +59,34 @@ export async function POST(request: NextRequest) {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
+    host: "smtp.gmail.com",
     port: 587,
+    secure: false,
     auth: {
-      user: "antwan.langworth37@ethereal.email", // generated ethereal user
-      pass: "JhP9MXr8HpXtB2ZXUw", // generated ethereal password
+      user: `${process.env.ETHEREAL_EMAIL}`, // generated ethereal user
+      pass: `${process.env.ETHEREAL_PASSWORD}`, // generated ethereal password
     },
   });
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"Assignment Nordstone" <louie.aufderhar@ethereal.email>', // sender address
+    from: `"Assignment Nordstone" <${process.env.ETHEREAL_EMAIL}>`, // sender address
     to: `${email}`, // list of receivers
     subject: "Reset your password", // Subject line
-    text: "Reset your password", // plain text body
+    text: `
+      Dear ${email.split("@")[0]},
+      We recently received a request to reset the password associated with your Nordstone account. To regain access to your account, please follow the instructions below:
+      1. Click on the password reset link at Reset Password
+      2. Follow the on-screen instructions to create a new password for your account.
+      Please note that this password reset link will expire after 24 hours for security reasons. If you don't reset your password within this time frame, you'll need to submit another "Forgot Password" request.
+      If you did not request a password reset or believe this email was sent to you in error, please ignore it. Your account will remain secure.
+      If you continue to experience any issues or have further questions, please feel free to contact our support team. We're here to help!
+      Thank you for using our service.
+
+      Best regards,
+
+      Nordstone
+    `, // plain text body
     html: `
     <body>
         <h2>Reset Your Password</h2>
