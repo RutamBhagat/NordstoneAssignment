@@ -43,6 +43,9 @@ dependencies:
   shortid:
     specifier: ^2.2.16
     version: 2.2.16
+  temporary-email-validator:
+    specifier: ^1.0.2
+    version: 1.0.2
   ts-node:
     specifier: ^10.9.1
     version: 10.9.1(@types/node@18.14.0)(typescript@4.9.5)
@@ -1911,6 +1914,10 @@ packages:
       minizlib: 2.1.2
       mkdirp: 1.0.4
       yallist: 4.0.0
+    dev: false
+
+  /temporary-email-validator@1.0.2:
+    resolution: {integrity: sha512-mpXp9HmfwwB2rvK8vGHYgASsVGP943p8yegXUc/5s1U2Z9pA/NY8vPKpEnm/nmqGoIN9nZk9Mh7OMS4Kfu3WKQ==}
     dev: false
 
   /thenify-all@1.6.0:

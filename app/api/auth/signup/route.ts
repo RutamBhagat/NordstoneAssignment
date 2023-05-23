@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import validator from "validator";
+import { isTemporaryEmail } from "temporary-email-validator";
 import bcrypt from "bcrypt";
 import * as jose from "jose";
 import { prisma } from "@/lib/prisma";
@@ -13,6 +14,10 @@ export async function POST(request: NextRequest) {
     {
       valid: validator.isEmail(email),
       errorMessage: "Email is not valid",
+    },
+    {
+      valid: isTemporaryEmail(email),
+      errorMessage: "Do not use a temporary email address",
     },
     {
       valid: validator.isStrongPassword(password),

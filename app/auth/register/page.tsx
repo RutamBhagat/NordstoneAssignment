@@ -51,8 +51,6 @@ export default function page() {
       <div className="flex h-full flex-col items-center justify-center px-4 sm:px-0">
         <div className="flex h-[675px] w-full rounded-2xl bg-gray-300 shadow-lg sm:mx-0 sm:w-3/4 md:w-5/6 lg:max-w-5xl">
           <div className="relative flex w-full flex-col justify-center px-10 md:w-1/2 md:px-4 lg:px-10">
-            <h1 className="text-4xl font-medium">Sign UP</h1>
-            <p className="text-slate-500">Create an account</p>
             {error && (
               <div
                 id="alert-2"
@@ -95,6 +93,8 @@ export default function page() {
                 </button>
               </div>
             )}
+            <h1 className="text-4xl font-medium">Sign UP</h1>
+            <p className="text-slate-500">Create an account</p>
             <form autoComplete="new-password" onSubmit={handleSubmit} action="#" className="mt-10 mb-5">
               <div className="flex flex-col space-y-5">
                 <label htmlFor="email">
