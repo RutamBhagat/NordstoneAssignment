@@ -61,7 +61,15 @@ const useAuth = () => {
     }
   };
 
-  const resetPassword = async ({ email, password }: { email: string; password: string }) => {
+  const resetPassword = async ({
+    email,
+    password,
+    confirm_password,
+  }: {
+    email: string;
+    password: string;
+    confirm_password: string;
+  }) => {
     setAuthState({
       loading: true,
       data: null,
@@ -71,6 +79,7 @@ const useAuth = () => {
       const response = await axios.post("/api/auth/resetPassword", {
         email,
         password,
+        confirm_password,
       });
       setAuthState({
         loading: false,
@@ -89,6 +98,33 @@ const useAuth = () => {
     }
   };
 
+  const checkEmail = async ({ email }: { email: string }) => {
+    setAuthState({
+      loading: true,
+      data: null,
+      error: null,
+    });
+    try {
+      const response = await axios.post("/api/auth/sendEmail", {
+        email,
+      });
+      setAuthState({
+        loading: false,
+        data: null,
+        error: "Click on redirection link in your email",
+      });
+      return true;
+    } catch (error: any) {
+      setAuthState({
+        loading: false,
+        data: null,
+        error: error.response.data.errorMessage,
+      });
+      console.log("error.response.data.errorMessage", error.response.data.errorMessage);
+      throw new Error("Error sending email");
+    }
+  };
+
   const signOut = async () => {
     deleteCookie("jwt");
     setAuthState({
@@ -103,6 +139,7 @@ const useAuth = () => {
     signUp,
     signOut,
     resetPassword,
+    checkEmail,
   };
 };
 

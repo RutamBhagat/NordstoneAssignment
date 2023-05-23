@@ -25,6 +25,9 @@ dependencies:
   next:
     specifier: 13.4.2
     version: 13.4.2(react-dom@18.2.0)(react@18.2.0)
+  nodemailer:
+    specifier: ^6.9.2
+    version: 6.9.2
   pkg.json:
     specifier: ^2.0.8
     version: 2.0.8
@@ -1279,6 +1282,11 @@ packages:
   /node-status-codes@1.0.0:
     resolution: {integrity: sha512-1cBMgRxdMWE8KeWCqk2RIOrvUb0XCwYfEsY5/y2NlXyq4Y/RumnOZvTj4Nbr77+Vb2C+kyBoRTdkNOS8L3d/aQ==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /nodemailer@6.9.2:
+    resolution: {integrity: sha512-4+TYaa/e1nIxQfyw/WzNPYTEZ5OvHIDEnmjs4LPmIfccPQN+2CYKmGHjWixn/chzD3bmUTu5FMfpltizMxqzdg==}
+    engines: {node: '>=6.0.0'}
     dev: false
 
   /noop6@1.0.9:

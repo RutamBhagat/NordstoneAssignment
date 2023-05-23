@@ -37,13 +37,14 @@ export default function page() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // try {
-    //   const response = await signUp(input);
-    //   resetFormFields();
-    //   router.push("/");
-    // } catch (error) {
-    //   setShowError(true);
-    // }
+    try {
+      // This is hard coded for now
+      const response = await resetPassword({ ...input, email: "josh@gmail.com" });
+      resetFormFields();
+      router.push("/");
+    } catch (error) {
+      setShowError(true);
+    }
   };
 
   return (
