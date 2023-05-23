@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Header from "../components/Header";
 import axios from "axios";
+import { AuthenticationContext } from "@/app/context/AuthContext";
 
 const fetchData = async () => {
   const res = await axios.get("/api/dummy");
@@ -11,6 +12,7 @@ const fetchData = async () => {
 
 export default function Home() {
   const [data, setData] = useState([]);
+  const auth = useContext(AuthenticationContext);
 
   useEffect(() => {
     const getData = async () => {
@@ -23,6 +25,7 @@ export default function Home() {
   return (
     <main>
       <Header />
+      <div className="text-white text-lg font-semibold flex justify-center items-center">{auth?.data?.email}</div>
       <div className="py-3 px-36 pt-10 flex flex-wrap justify-center bg-[#0a081a]">
         {data.map((user: any) => {
           return (

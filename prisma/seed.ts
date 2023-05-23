@@ -7,28 +7,28 @@ async function main() {
 
   const userLaith = await prisma.user.create({
     data: {
-      email: "laith@hotmail.com",
+      email: "laith@gmail.com",
       password: "$2b$10$I8xkU2nQ8EAHuVOdbMy9YO/.rSU3584Y.H4LrpIujGNDtmny9FnLu",
     },
   });
 
   const userJosh = await prisma.user.create({
     data: {
-      email: "josh@hotmail.com",
+      email: "josh@gmail.com",
       password: "$2b$10$I8xkU2nQ8EAHuVOdbMy9YO/.rSU3584Y.H4LrpIujGNDtmny9FnLu",
     },
   });
 
   const userLebron = await prisma.user.create({
     data: {
-      email: "lebron@hotmail.com",
+      email: "lebron@gmail.com",
       password: "$2b$10$I8xkU2nQ8EAHuVOdbMy9YO/.rSU3584Y.H4LrpIujGNDtmny9FnLu",
     },
   });
 
   const userCassidy = await prisma.user.create({
     data: {
-      email: "cassidy@hotmail.com",
+      email: "cassidy@gmail.com",
       password: "$2b$10$I8xkU2nQ8EAHuVOdbMy9YO/.rSU3584Y.H4LrpIujGNDtmny9FnLu",
     },
   });

@@ -43,7 +43,6 @@ export default function page() {
       router.push("/");
     } catch (error) {
       setShowError(true);
-      console.log("error", error);
     }
   };
 
@@ -51,13 +50,13 @@ export default function page() {
     <div className="w-screen min-h-screen bg-gray-900 py-5">
       <div className="flex h-full flex-col items-center justify-center px-4 sm:px-0">
         <div className="flex h-[675px] w-full rounded-2xl bg-gray-300 shadow-lg sm:mx-0 sm:w-3/4 md:w-5/6 lg:max-w-5xl">
-          <div className="flex w-full flex-col justify-center px-10 md:w-1/2 md:px-4 lg:px-10">
+          <div className="relative flex w-full flex-col justify-center px-10 md:w-1/2 md:px-4 lg:px-10">
             <h1 className="text-4xl font-medium">Sign UP</h1>
             <p className="text-slate-500">Create an account</p>
             {error && (
               <div
                 id="alert-2"
-                className={`flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 ${
+                className={`absolute top-2 left-2 right-2 flex p-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 ${
                   showError ? "" : "hidden"
                 }`}
                 role="alert"
@@ -96,7 +95,7 @@ export default function page() {
                 </button>
               </div>
             )}
-            <form onSubmit={handleSubmit} action="#" className="mt-10 mb-5">
+            <form autoComplete="new-password" onSubmit={handleSubmit} action="#" className="mt-10 mb-5">
               <div className="flex flex-col space-y-5">
                 <label htmlFor="email">
                   <p className="pb-2 font-medium text-slate-700">Email address</p>

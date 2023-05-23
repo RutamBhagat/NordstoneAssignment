@@ -20,11 +20,18 @@ export async function POST(request: NextRequest) {
     },
   ];
 
-  validationSchema.forEach((inst) => {
-    if (!inst.valid) {
-      return NextResponse.json({ errorMessage: inst.errorMessage }, { status: 400 });
+  let hasError = false;
+  let errorMessage = "";
+  for (let check of validationSchema) {
+    if (check.valid === false) {
+      hasError = true;
+      errorMessage = check.errorMessage;
+      break;
     }
-  });
+  }
+  if (hasError) {
+    return NextResponse.json({ errorMessage: errorMessage }, { status: 400 });
+  }
 
   // Check if user exists and check user credentials
   const user = await prisma.user.findUnique({
