@@ -6,6 +6,7 @@ import { useState, useRef, useContext } from "react";
 import LoadingComponent from "../text/components/LoadingComponent";
 import ErrorComponent from "../text/components/ErrorComponent";
 import CreatePhoto from "./components/CreatePhoto";
+import Photo from "./components/Photo";
 
 export type PhotoType = {
   id: string;
@@ -97,9 +98,7 @@ export default function Home() {
                 <div className="flex flex-col h-full">
                   <div className="flex flex-wrap justify-center gap-3">
                     {data?.map((photo) => (
-                      <>
-                        <img src={photo.url} className="h-64" />
-                      </>
+                      <Photo key={photo.id} photo={photo} />
                     ))}
                   </div>
                 </div>

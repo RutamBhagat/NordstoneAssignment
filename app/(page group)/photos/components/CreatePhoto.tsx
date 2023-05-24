@@ -4,13 +4,11 @@ import axios, { AxiosError } from "axios";
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { toast } from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import ts from "typescript";
 
 export default function CreatePost() {
   const [imageSrc, setImageSrc] = useState();
   const [uploadData, setUploadData] = useState();
   const [isDisabled, setIsDisabled] = useState(false);
-  const { data } = useContext(AuthenticationContext);
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const auth = useContext(AuthenticationContext);
@@ -102,7 +100,7 @@ export default function CreatePost() {
       <form
         onChange={handleOnChange}
         onSubmit={handleOnSubmit}
-        className="fixed left-5 bottom-5 border border-gray-500 rounded-lg z-50"
+        className="fixed left-5 bottom-5 border border-gray-500 rounded-lg z-20"
       >
         <div className="flex justify-center items-center px-3 py-2 rounded-lg bg-gray-50 border">
           <input
@@ -205,7 +203,7 @@ export default function CreatePost() {
       <div
         className={`${
           imageSrc ? "" : "hidden"
-        } max-w-[40vw] max-h-screen fixed left-0 bottom-0 z-40 bg-gradient-to-tr from-black`}
+        } max-w-[40vw] max-h-screen fixed left-0 bottom-0 z-10 bg-gradient-to-tr from-black`}
       >
         <img src={imageSrc} className="p-5" />
       </div>
