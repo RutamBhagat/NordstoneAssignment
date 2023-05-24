@@ -3,13 +3,13 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { url } = body;
+  const { id } = body;
 
   // Delete a image url
   try {
     const result = await prisma.photo.delete({
       where: {
-        url: url,
+        id: id,
       },
     });
     return NextResponse.json(result, { status: 200 });
