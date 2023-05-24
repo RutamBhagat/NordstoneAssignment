@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="">
+    <div className="bg-white py-[60px]">
       <Navbar />
       <div>{children}</div>
     </div>
