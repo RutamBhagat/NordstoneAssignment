@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import { useState } from "react";
 
 export default function Home() {
@@ -41,15 +42,14 @@ export default function Home() {
       formData.append("file", file);
     }
 
-    formData.append("upload_preset", "my-uploads");
+    formData.append("upload_preset", "my_uploads");
 
-    const data = await fetch("https://api.cloudinary.com/v1_1/[Your Cloudinary Cloud Name]/image/upload", {
+    const response = await fetch("https://api.cloudinary.com/v1_1/drxe0t2yg/image/upload", {
       method: "POST",
       body: formData,
     }).then((r) => r.json());
-
-    setImageSrc(data.secure_url);
-    setUploadData(data);
+    setImageSrc(response.secure_url);
+    setUploadData(response);
   }
 
   return (
@@ -61,11 +61,7 @@ export default function Home() {
 
         <form className="" method="post" onChange={handleOnChange} onSubmit={handleOnSubmit}>
           <p>
-            <input
-              type="file"
-              name="file"
-              className="text-[1em] p-[1em] rounded-[0.5em] border-[solid] border-[gray]"
-            />
+            <input type="file" name="file" className="text-base p-4 rounded-[0.5em] border-[solid] border-[gray]" />
           </p>
 
           <img src={imageSrc} />
@@ -76,12 +72,6 @@ export default function Home() {
                 Upload Files
               </button>
             </p>
-          )}
-
-          {uploadData && (
-            <code className="text-left">
-              <pre>{JSON.stringify(uploadData, null, 2)}</pre>
-            </code>
           )}
         </form>
       </main>
