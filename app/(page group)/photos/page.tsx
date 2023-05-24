@@ -1,78 +1,47 @@
 "use client";
 import { AuthenticationContext } from "@/app/context/AuthContext";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState, useRef, useContext } from "react";
+import LoadingComponent from "../text/components/LoadingComponent";
+import ErrorComponent from "../text/components/ErrorComponent";
+import CreatePhoto from "./components/CreatePhoto";
+
+export type PhotoType = {
+  id: string;
+  url: string;
+  createdAt: string;
+  user: {
+    id: string;
+    email: string;
+  };
+  updatedAt: string;
+  userId: string;
+};
 
 export default function Home() {
-  const [imageSrc, setImageSrc] = useState();
-  const [uploadData, setUploadData] = useState();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const auth = useContext(AuthenticationContext);
 
-  const handleButtonClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-  /**
-   * handleOnChange
-   * @description Triggers when the file input changes (ex: when a file is selected)
-   */
+  const { data, error, isError, isLoading } = useQuery<PhotoType[]>({
+    queryKey: ["photos"],
+    queryFn: async () => {
+      const response = await axios.post("/api/photos/getPhotos", { email: auth?.data?.email || "" });
+      return response.data;
+    },
+  });
 
-  function handleOnChange(changeEvent: any) {
-    const reader = new FileReader();
-
-    reader.onload = function (onLoadEvent) {
-      // @ts-ignore
-      setImageSrc(onLoadEvent.target.result);
-      setUploadData(undefined);
-    };
-
-    reader.readAsDataURL(changeEvent.target.files[0]);
+  if (isLoading) {
+    <LoadingComponent />;
   }
 
-  /**
-   * handleOnSubmit
-   * @description Triggers when the main form is submitted
-   */
-
-  async function handleOnSubmit(event: any) {
-    event.preventDefault();
-
-    const form = event.currentTarget;
-    // @ts-ignore
-    const fileInput = Array.from(form.elements).find(({ name }) => name === "file");
-
-    const formData = new FormData();
-
-    // @ts-ignore
-    for (const file of fileInput.files) {
-      formData.append("file", file);
-    }
-
-    formData.append("upload_preset", "my_uploads");
-
-    const response = await fetch("https://api.cloudinary.com/v1_1/drxe0t2yg/image/upload", {
-      method: "POST",
-      body: formData,
-    }).then((r) => r.json());
-
-    try {
-      const posturl = axios.post("/api/photos/upload", {
-        email: auth?.data?.email,
-        url: response.secure_url,
-      });
-    } catch (error) {
-      console.log("Something went wrong while saving image url in database");
-    }
-
-    setImageSrc(response.secure_url);
-    setUploadData(response);
+  if (isError) {
+    const { message } = error as Error;
+    <ErrorComponent message={message} />;
   }
 
   return (
     <>
-      <div className="grid grid-rows-[1fr_auto] max-w-screen-xl min-h-screen mx-auto my-0 px-8 pt-[60px]">
+      {/* <div className="grid grid-rows-[1fr_auto] max-w-screen-xl min-h-screen mx-auto my-0 px-8 pt-[60px]">
         <main className="flex flex-col justify-center items-center text-center px-0 py-8">
           <h1 className="leading-[1.15] text-[4rem] m-0">Image Uploader</h1>
 
@@ -118,26 +87,28 @@ export default function Home() {
             )}
           </form>
         </main>
-      </div>
+      </div> */}
 
-      {/* <div className="flex h-screen text-gray-800">
+      <div className="flex h-screen text-gray-800">
         <div className="flex flex-row h-full w-full overflow-x-hidden">
           <div className="flex flex-col flex-auto pt-[60px]">
             <div className="flex flex-col flex-auto flex-shrink-0 bg-gray-100 h-full p-4">
               <div className="flex flex-col h-full overflow-x-auto mb-4">
                 <div className="flex flex-col h-full">
-                  <div className="grid grid-cols-12 gap-y-2">
-                    {data?.map((post) => (
-                      <Posts key={shortid.generate()} post={post} />
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {data?.map((photo) => (
+                      <>
+                        <img src={photo.url} className="h-64" />
+                      </>
                     ))}
                   </div>
                 </div>
               </div>
-              <CreatePost />
+              <CreatePhoto />
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </>
   );
 }

@@ -15,7 +15,7 @@ export default function page() {
   const { data, error, isError, isLoading } = useQuery<PostType[]>({
     queryKey: ["posts"],
     queryFn: async () => {
-      const response = await axios.post("/api/posts/getPosts", { email: auth.data?.email });
+      const response = await axios.post("/api/posts/getPosts", { email: auth.data?.email || "" });
       return response.data;
     },
   });

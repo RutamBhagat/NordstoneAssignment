@@ -13,7 +13,6 @@ export type PostType = {
     id: string;
     email: string;
   };
-  published: boolean;
   updatedAt: string;
   userId: string;
 };

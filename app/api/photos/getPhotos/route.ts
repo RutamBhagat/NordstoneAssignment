@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   });
 
   try {
-    const data = await prisma.post.findMany({
+    const data = await prisma.photo.findMany({
       where: {
         userId: prismaUser?.id as string,
       },
@@ -24,6 +24,6 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json(data, { status: 200 });
   } catch (err) {
-    return NextResponse.json({ err: "Error has occured while getting all post" }, { status: 403 });
+    return NextResponse.json({ err: "Error has occured while getting photos" }, { status: 403 });
   }
 }
