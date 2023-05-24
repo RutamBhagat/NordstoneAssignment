@@ -1,17 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
-import formidable from "formidable";
-import { v2 as cloudinary } from "cloudinary";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { formData } = body;
-  console.log("THIS IS HITTING");
-  console.log("formData", formData);
-  return NextResponse.json(
-    {
-      url: "https://cdn.gamestatic.net/files/editor_uploads/Safola/%D0%90%D1%80%D1%82%D1%8B/art-na-tifu-iz-final-fantasy-vii-risunki-s-devushkami/image4.png",
-    },
-    { status: 200 }
-  );
+  const { email, url } = body;
+
+  const prismaUser = await prisma.user.findUnique({
+    where: { email: email },
+  });
+
+  if (!prismaUser) {
+    return NextResponse.json({ message: "User not found" }, { status: 400 });
+  }
+
+  // Upload a image url
+  try {
+    const result = await prisma.photo.create({
+      data: {
+        url: url as string,
+        userId: prismaUser?.id as string,
+      },
+    });
+    return NextResponse.json(result, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ err: "Error occured while saving image url" }, { status: 400 });
+  }
 }
