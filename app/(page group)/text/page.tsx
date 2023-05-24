@@ -30,17 +30,23 @@ export default function page() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-t from-[#0a081a] to-[#1c1649]">
-      <CreatePost />
-      <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto">
-          <div className="flex flex-wrap justify-center -m-4">
-            {data?.map((post) => (
-              <Posts key={shortid.generate()} post={post} />
-            ))}
+    <div className="flex h-screen text-gray-800">
+      <div className="flex flex-row h-full w-full overflow-x-hidden">
+        <div className="flex flex-col flex-auto pt-[60px]">
+          <div className="flex flex-col flex-auto flex-shrink-0 bg-gray-100 h-full p-4">
+            <div className="flex flex-col h-full overflow-x-auto mb-4">
+              <div className="flex flex-col h-full">
+                <div className="grid grid-cols-12 gap-y-2">
+                  {data?.map((post) => (
+                    <Posts key={shortid.generate()} post={post} />
+                  ))}
+                </div>
+              </div>
+            </div>
+            <CreatePost />
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 }

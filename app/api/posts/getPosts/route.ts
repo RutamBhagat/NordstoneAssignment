@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
         user: true,
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
     });
     return NextResponse.json(data, { status: 200 });

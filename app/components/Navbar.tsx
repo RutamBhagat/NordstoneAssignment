@@ -19,7 +19,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="border-gray-200 px-2 sm:px-4 py-2.5 bg-gray-900">
+    <nav className="fixed top-0 left-0 right-0 border-gray-200 px-2 sm:px-4 py-2.5 h-[60px] bg-gray-900">
       <div className="container flex rounded flex-wrap items-center justify-between mx-auto">
         <Link href="/" className="flex items-center">
           <img src="https://img.icons8.com/nolan/512/dyndns.png" className="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />

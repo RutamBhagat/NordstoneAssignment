@@ -1,6 +1,9 @@
 "use client";
-import React from "react";
-import Link from "next/link";
+import { AuthenticationContext } from "@/app/context/AuthContext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
 
 export type PostType = {
   id: string;
@@ -16,35 +19,56 @@ export type PostType = {
 };
 
 export default function Post({ post }: { post: PostType }) {
+  const { data } = useContext(AuthenticationContext);
+  const queryClient = useQueryClient();
+  let toastPostID: string;
+
+  //create a post
+  const { mutate } = useMutation(
+    async (id: string) => {
+      try {
+        const response = await axios.post("/api/posts/deletePost", {
+          id: id,
+        });
+        return response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    {
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          toast.error(error?.response?.data.message, { id: toastPostID });
+        }
+      },
+      onSuccess: (data) => {
+        toast.success("Text deleted successfully.", { id: toastPostID });
+        queryClient.invalidateQueries(["posts"]);
+      },
+    }
+  );
+
+  const deletePost = async (id: string) => {
+    mutate(id);
+  };
+
   return (
-    <div key={`${post.title}_id`} className="p-4 lg:w-1/3">
-      <div className="h-full bg-gray-100 bg-opacity-75 px-8 pt-16 pb-24 rounded-lg overflow-hidden text-center relative">
-        <h1 className="flex justify-start gap-2 items-center py-3">
-          <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">{post.user.email}</h2>
-        </h1>
-        <p className="leading-relaxed mb-3">{post.title}</p>
-        <Link
-          href={`/post/${post.id}`}
-          className="text-center mt-2 leading-none flex justify-center absolute bottom-0 left-0 w-full py-4"
-        >
-          <span className="text-gray-400 mr-1 inline-flex items-center leading-none text-sm py-1 border-gray-200">
-            Comments
-          </span>
-          <button className="text-gray-400 inline-flex items-center leading-none text-sm">
-            <svg
-              className="w-4 h-4 mr-1"
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              viewBox="0 0 24 24"
-            >
-              <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
-            </svg>
+    <>
+      <div className="col-start-6 col-end-13 p-3 rounded-lg">
+        <div className="flex items-center justify-start flex-row-reverse">
+          <button
+            onClick={() => {
+              deletePost(post.id);
+            }}
+            className="group flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
+          >
+            {data?.email.substring(0, 2).toUpperCase() || "user"}
           </button>
-        </Link>
+          <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
+            <div>{post.title}</div>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
