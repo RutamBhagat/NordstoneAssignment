@@ -9,9 +9,30 @@ export default function page() {
   const [num2, setNum2] = useState("0");
   const [operation, setOperation] = useState("+");
 
+  function sanitizeNum1(numberString: string) {
+    let sanitizedNumber = numberString;
+
+    sanitizedNumber = sanitizedNumber.replace(/^\.+|\.+$/g, "");
+    sanitizedNumber = sanitizedNumber.replace(/^0+(?!$)/, "");
+
+    setNum1(sanitizedNumber);
+    return sanitizedNumber;
+  }
+  function sanitizeNum2(numberString: string) {
+    let sanitizedNumber = numberString;
+
+    sanitizedNumber = sanitizedNumber.replace(/^\.+|\.+$/g, "");
+    sanitizedNumber = sanitizedNumber.replace(/^0+(?!$)/, "");
+
+    setNum2(sanitizedNumber);
+    return sanitizedNumber;
+  }
+
   const calculate = async () => {
     try {
-      const response = await axios.post("/api/calculator/evaluate", { equation: `${num1}${operation}${num2}` });
+      const response = await axios.post("/api/calculator/evaluate", {
+        equation: `${sanitizeNum1(num1)}${operation}${sanitizeNum2(num2)}`,
+      });
       setResult(response.data.result);
     } catch (error) {
       setResult("ERROR SENDING DATA TO SERVER");
