@@ -138,7 +138,7 @@ export default function CreatePost() {
             </svg>
           </button>
 
-          {!uploadData && (
+          {!uploadData && imageSrc && (
             <p>
               <button
                 disabled={isDisabled}
