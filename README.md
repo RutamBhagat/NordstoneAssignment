@@ -2,7 +2,6 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-
 clone the repository locally
 
 cd into the repository
@@ -11,7 +10,7 @@ cd into the repository
 pnpm i
 ```
 
-create a .env file in the root of the project 
+create a .env file in the root of the project
 
 paste your database url in the .env file for Ex.
 
@@ -33,5 +32,4 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Table Spot is a restaurant reservation application built with Next.js 13. It features a user-friendly booking and availability system that allows customers to easily reserve a table at their desired restaurant. The application also includes an authentication system that utilizes JWT for secure session management, ensuring that user data is protected. Additional features include conditional rendering, middleware, and cookies for enhanced user experience and seamless navigation. Data management is handled through a PostgreSQL database and Prisma ORM, ensuring efficient and reliable data storage and retrieval. The application is designed to provide a seamless and convenient experience for customers looking to book a table at their favorite restaurant.
 # NordstoneAssignment
