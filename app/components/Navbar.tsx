@@ -60,9 +60,9 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/calculator"
+                href="/calculator/simple"
                 className={`${
-                  pathname === "/calculator" ? "text-blue-500" : "text-white"
+                  pathname.startsWith("/calculator") ? "text-blue-500" : "text-white"
                 } block rounded border-0 p-0 hover:text-blue-500 md:hover:bg-transparent`}
               >
                 Calculator
