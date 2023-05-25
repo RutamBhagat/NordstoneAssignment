@@ -19,8 +19,8 @@ export default function page() {
   };
 
   return (
-    <div className="relative min-h-screen flex justify-center items-center gap-10">
-      <div className="text-xl mt-[60px] w-full max-w-xl rounded-xl bg-gray-900">
+    <div className="min-h-screen flex justify-center items-center gap-10">
+      <div className="text-xl w-full max-w-xl rounded-xl bg-gray-900 mt-[60px]">
         <div className="flex flex-col justify-center items-center min-h-[600px] w-full">
           <div className="border border-t-0 border-l-0 border-r-0 border-b-2 border-gray-600 w-[500px]">
             <div className="flex justify-between items-center gap-10 m-5">
