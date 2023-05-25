@@ -75,8 +75,6 @@ export default function AuthContext({ children }: { children: React.ReactNode })
         data: response.data,
         error: null,
       });
-
-      router.push("/");
     } catch (error: any) {
       setAuthState({
         loading: false,
