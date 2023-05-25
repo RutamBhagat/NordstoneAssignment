@@ -6,6 +6,7 @@ import { AuthenticationContext } from "@/app/context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
+import CreatePhoto from "./CreatePhoto";
 
 export default function Photo({ photo }: { photo: PhotoType }) {
   const [imageSrc, setImageSrc] = useState();
@@ -210,6 +211,17 @@ export default function Photo({ photo }: { photo: PhotoType }) {
                 )}
               </form>
             </div>
+          </div>
+          <div
+            onClick={(event) => {
+              event.stopPropagation();
+              setImageSrc(undefined);
+            }}
+            className={`${
+              imageSrc ? "" : "hidden"
+            } max-w-[40vw] max-h-screen fixed left-0 bottom-0 z-10 bg-gradient-to-tr from-black`}
+          >
+            <img src={imageSrc} className="p-5" />
           </div>
         </div>
       )}
