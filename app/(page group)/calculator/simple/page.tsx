@@ -18,6 +18,7 @@ export default function page() {
     setNum1(sanitizedNumber);
     return sanitizedNumber;
   }
+
   function sanitizeNum2(numberString: string) {
     let sanitizedNumber = numberString;
 
@@ -28,9 +29,20 @@ export default function page() {
     return sanitizedNumber;
   }
 
+  //   const calculate = async () => {
+  //     try {
+  //       const response = await axios.post("/api/calculator/evaluate", {
+  //         equation: `${sanitizeNum1(num1)}${operation}${sanitizeNum2(num2)}`,
+  //       });
+  //       setResult(response.data.result);
+  //     } catch (error) {
+  //       setResult("ERROR SENDING DATA TO SERVER");
+  //     }
+  //   };
+
   const calculate = async () => {
     try {
-      const response = await axios.post("/api/calculator/evaluate", {
+      const response = await axios.post("/api/calculator/simpleEvaluate", {
         equation: `${sanitizeNum1(num1)}${operation}${sanitizeNum2(num2)}`,
       });
       setResult(response.data.result);
