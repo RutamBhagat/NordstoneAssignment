@@ -74,28 +74,28 @@ export default function page() {
 
         <div className="grid grid-cols-4">
           <button
-            className="h-[90px] outline-none cursor-pointer font-medium m-1 rounded-xl border-none bg-cyan-600 hover:bg-cyan-500 text-white"
+            className="h-[90px] outline-none cursor-pointer font-medium m-1 rounded-xl border-none bg-[#ea580c] hover:bg-[#f97316] text-white"
             onClick={clear}
             id="clear"
           >
             Clear
           </button>
           <button
-            className="h-[90px] outline-none cursor-pointer font-medium m-1 rounded-xl border-none bg-cyan-600 hover:bg-cyan-500 text-white"
+            className="h-[90px] outline-none cursor-pointer font-medium m-1 rounded-xl border-none bg-[#ea580c] hover:bg-[#f97316] text-white"
             onClick={backspace}
             id="backspace"
           >
             C
           </button>
           <button
-            className="h-[90px] outline-none cursor-pointer text-white font-medium m-1 rounded-xl border-none bg-cyan-600 hover:bg-cyan-500"
+            className="h-[90px] outline-none cursor-pointer text-white font-medium m-1 rounded-xl border-none bg-[#ea580c] hover:bg-[#f97316]"
             onClick={handleClick}
             name="**"
           >
             ^
           </button>
           <button
-            className="h-[90px] outline-none cursor-pointer text-white font-medium m-1 rounded-xl border-none bg-cyan-600 hover:bg-cyan-500"
+            className="h-[90px] outline-none cursor-pointer text-white font-medium m-1 rounded-xl border-none bg-[#ea580c] hover:bg-[#f97316]"
             onClick={handleClick}
             name="/"
           >
@@ -123,7 +123,7 @@ export default function page() {
             9
           </button>
           <button
-            className="h-[90px] outline-none cursor-pointer text-white font-medium m-1 rounded-xl border-none bg-cyan-600 hover:bg-cyan-500"
+            className="h-[90px] outline-none cursor-pointer text-white font-medium m-1 rounded-xl border-none bg-[#ea580c] hover:bg-[#f97316]"
             onClick={handleClick}
             name="*"
           >
@@ -151,7 +151,7 @@ export default function page() {
             6
           </button>
           <button
-            className="h-[90px] outline-none cursor-pointer text-white font-medium m-1 rounded-xl border-none bg-cyan-600 hover:bg-cyan-500"
+            className="h-[90px] outline-none cursor-pointer text-white font-medium m-1 rounded-xl border-none bg-[#ea580c] hover:bg-[#f97316]"
             onClick={handleClick}
             name="-"
           >
@@ -179,7 +179,7 @@ export default function page() {
             3
           </button>
           <button
-            className="h-[90px] outline-none cursor-pointer text-white font-medium m-1 rounded-xl border-none bg-cyan-600 hover:bg-cyan-500"
+            className="h-[90px] outline-none cursor-pointer text-white font-medium m-1 rounded-xl border-none bg-[#ea580c] hover:bg-[#f97316]"
             onClick={handleClick}
             name="+"
           >
@@ -200,7 +200,7 @@ export default function page() {
             .
           </button>
           <button
-            className="h-[90px] outline-none cursor-pointer font-medium m-1 rounded-xl border-none bg-cyan-600 hover:bg-cyan-500 col-span-2 text-white"
+            className="h-[90px] outline-none cursor-pointer font-medium m-1 rounded-xl border-none bg-[#ea580c] hover:bg-[#f97316] col-span-2 text-white"
             onClick={calculate}
             id="result"
           >

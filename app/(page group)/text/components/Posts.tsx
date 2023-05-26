@@ -5,6 +5,43 @@ import axios, { AxiosError } from "axios";
 import React, { useContext } from "react";
 import { toast } from "react-hot-toast";
 
+function convertToHumanReadableTime(timeString: string): string {
+  const [hourStr, minuteStr] = timeString.split(":");
+  const hours = parseInt(hourStr, 10);
+  const minutes = parseInt(minuteStr, 10);
+  const amPm = hours >= 12 ? "PM" : "AM";
+
+  let twelveHourFormat = hours % 12;
+  if (twelveHourFormat === 0) {
+    twelveHourFormat = 12; // Convert 0 to 12 for 12-hour format
+  }
+
+  return `${twelveHourFormat.toString()}:${minutes.toString().padStart(2, "0")} ${amPm}`;
+}
+
+function convertToIST(humanReadableTime: string): string {
+  const [timeStr, amPm] = humanReadableTime.split(" ");
+  const [hoursStr, minutesStr] = timeStr.split(":");
+  let hours = parseInt(hoursStr, 10);
+  const minutes = parseInt(minutesStr, 10);
+
+  if (amPm.toUpperCase() === "PM") {
+    hours += 12;
+  }
+
+  const date = new Date();
+  date.setHours(hours);
+  date.setMinutes(minutes);
+  const ISTOffset = 5.5 * 60; // IST offset from UTC in minutes
+  date.setMinutes(date.getMinutes() + ISTOffset);
+
+  const ISTHours = date.getHours() % 12 || 12;
+  const ISTMinutes = date.getMinutes().toString().padStart(2, "0");
+  const ISTAmPm = date.getHours() >= 12 ? "PM" : "AM";
+
+  return `${ISTHours}:${ISTMinutes} ${ISTAmPm}`;
+}
+
 export type PostType = {
   id: string;
   title: string;
@@ -127,6 +164,9 @@ export default function Post({ post }: { post: PostType }) {
           </button>
           <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
             <div>{post.title}</div>
+            <div className="absolute text-xs bottom-0 right-0 -mb-5 mr-2 text-gray-500">
+              {convertToIST(convertToHumanReadableTime(post.createdAt.split("T")[1]))}
+            </div>
           </div>
         </div>
       </div>
