@@ -24,6 +24,7 @@
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.37.0",
     "cookies-next": "^2.1.1",
+    "cors": "^2.8.5",
     "date-fns": "^2.30.0",
     "formidable": "^2.1.1",
     "jose": "^4.14.4",
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.13",
     "@types/formidable": "^2.0.6",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "18.14.0",
