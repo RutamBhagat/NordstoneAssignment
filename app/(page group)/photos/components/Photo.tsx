@@ -1,80 +1,17 @@
 "use client";
 
-import React, { useContext, useRef, useState } from "react";
+import React, { useState } from "react";
 import { type PhotoType } from "../page";
-import { AuthenticationContext } from "@/app/context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import UploadWidget from "./UploadWidget";
 
 export default function Photo({ photo }: { photo: PhotoType }) {
-  const [imageSrc, setImageSrc] = useState();
-  const [uploadData, setUploadData] = useState();
-  const [isDisabled, setIsDisabled] = useState(false);
-  const fileInputRef2 = useRef<HTMLInputElement | null>(null);
   const [fullscreen, setFullscreen] = useState(false);
   const toggleFullscreen = () => setFullscreen(!fullscreen);
-  const auth = useContext(AuthenticationContext);
   const queryClient = useQueryClient();
   let toastPostID: string;
-
-  const handleButtonClick = (event: any) => {
-    if (fileInputRef2.current) {
-      fileInputRef2.current.click();
-    }
-  };
-
-  /**
-   * handleOnChange
-   * @description Triggers when the file input changes (ex: when a file is selected)
-   */
-
-  function handleOnChange(changeEvent: any) {
-    const reader = new FileReader();
-
-    reader.onload = function (onLoadEvent) {
-      // @ts-ignore
-      setImageSrc(onLoadEvent.target.result);
-      setUploadData(undefined);
-    };
-
-    reader.readAsDataURL(changeEvent.target.files[0]);
-  }
-
-  /**
-   * handleOnSubmit
-   * @description Triggers when the main form is submitted
-   */
-
-  async function handleOnSubmit(event: any) {
-    event.preventDefault();
-    toggleFullscreen();
-
-    const form = event.currentTarget;
-    // @ts-ignore
-    const fileInput = Array.from(form.elements).find(({ name }) => name === "file");
-
-    const formData = new FormData();
-
-    // @ts-ignore
-    for (const file of fileInput.files) {
-      formData.append("file", file);
-    }
-
-    formData.append("upload_preset", "my_uploads");
-
-    const response = await fetch("https://api.cloudinary.com/v1_1/drxe0t2yg/image/upload", {
-      method: "POST",
-      body: formData,
-    }).then((r) => r.json());
-
-    setIsDisabled(true);
-    updateMutation.mutate({ id: Number.parseInt(photo.id), secure_url: response.secure_url });
-
-    setImageSrc(response.secure_url);
-    setUploadData(response);
-  }
 
   //delete a photo
   const deleteMutation = useMutation(
@@ -101,36 +38,6 @@ export default function Photo({ photo }: { photo: PhotoType }) {
     }
   );
 
-  //update a photo
-  const updateMutation = useMutation(
-    async ({ id, secure_url }: { id: number; secure_url: string }) => {
-      try {
-        const response = await axios.post("/api/photos/update", {
-          id: id,
-          newUrl: secure_url,
-        });
-        return response.data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    {
-      onError: (error) => {
-        if (error instanceof AxiosError) {
-          toast.error(error?.response?.data.message, { id: toastPostID });
-        }
-        setIsDisabled(false);
-      },
-      onSuccess: (data) => {
-        queryClient.invalidateQueries(["photos"]);
-        toast.success("Photo updated successfully.", { id: toastPostID });
-        setImageSrc(undefined);
-        setUploadData(undefined);
-        setIsDisabled(false);
-      },
-    }
-  );
-
   return (
     <>
       <img onClick={toggleFullscreen} src={photo.url} className="h-64 cursor-pointer" />
@@ -149,8 +56,6 @@ export default function Photo({ photo }: { photo: PhotoType }) {
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
-                onChange={handleOnChange}
-                onSubmit={handleOnSubmit}
                 className="absolute top-5 right-5 flex flex-col gap-3"
               >
                 <button
@@ -166,54 +71,8 @@ export default function Photo({ photo }: { photo: PhotoType }) {
                   />
                 </button>
                 <UploadWidget photoId={Number.parseInt(photo.id)} />
-                <input
-                  ref={fileInputRef2}
-                  type="file"
-                  name="file"
-                  className="hidden text-base p-4 rounded-[0.5em] border-[solid] border-[gray]"
-                />
-                <button
-                  onClick={handleButtonClick}
-                  type="button"
-                  className="p-3 text-indigo-600 bg-indigo-50 rounded-lg duration-150 hover:bg-indigo-100 active:bg-indigo-200"
-                >
-                  <img
-                    className="w-8 h-8"
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAACvUlEQVR4nO2aT2vUQBjGk971LHhu0btS8NiJh81IQSdBu3sUe9PNLJYKsqx4Klg8tbDQfgrxJtjN1EOh+A3qSfDmP/Sm8MhY3WazabK7SeikeR942U0yQ/b5zcw7M5tYFolEIpEmV3uAq8E+VuU+1o2JEGsdhQWrTHX2cCVQeCsVYGIEIY5KM99WWAwUvp21yTMB8PAAF6XCp+GNFH7JEK+kwosgxIYh0X00wHwpADoKTyOUPwfvcM2qk6TC+2FXC3Hfqpukwo//AB7v4ZJVN8lIorHqKEkAQD1A0hAA5QBJSRBVmQVsh3svGRc/mSs29XGdZgHb4WLb4R5OQuz2er25OgCwx80XAEFWA0CK+ZwQpPkAJjCfA4I0G4A234+ZzDyeKjFKcwGMtTzjYke3cPScLse4tzVzT5BmArDTWjYGILN85QA4Db+ZZiYBQDKEht+sJADGvVZaS54CYAzCEvfuVRKANqJ/vOOKlaRunAJgWPefebuqAFKVAWA6SQIA6gGShgAoB8hzmwQBOwjRaius6O9TJcGMupUAIAdoRp779eNGTgWgzSv0h9cHyF5VmQggCNEaecoag5AIIG7+OLJXVcYOATVqJgphDEBG+WouhABbKmzFTO32gLkRAMdjfjvW8ju6nFX5lSCSWzbr2KSWz78UxnhPSAnjWr6YvQAmgmCs+WI2Q0iFYLT54naDSIRgvPlit8P4mxg39Vsi+tPEhFf6/wFVFAHg1ANAQ4BTDgAlQV7DWWCJ+5cjzwq/W3UT4/7qCQDv0KqTbrpikXHxZTgNuv6TUm7EGncXmOuvOVysR0Of09dmqZsrXO+5w8Vr5orfkTXAxxvLyxdKAeBw70PKWxhHs9ctKFzvK7t1+3op5isA4E1WL8wth9+ZZ1x0Gfc2RkN09bXZ6uYJ8czh4kHpxkkkEsk6Z/oDa82SviKjS8IAAAAASUVORK5CYII="
-                  />
-                </button>
-                {!uploadData && imageSrc && (
-                  <button
-                    disabled={isDisabled}
-                    type="submit"
-                    className={`${
-                      imageSrc ? "text-blue-600" : "text-red-600"
-                    } p-3 py-4 flex justify-center items-center bg-indigo-50 rounded-lg duration-150 hover:bg-indigo-100 active:bg-indigo-200`}
-                  >
-                    <svg
-                      aria-hidden="true"
-                      className="w-6 h-6 rotate-90"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
-                    </svg>
-                  </button>
-                )}
               </form>
             </div>
-          </div>
-          <div
-            onClick={(event) => {
-              event.stopPropagation();
-              setImageSrc(undefined);
-            }}
-            className={`${
-              imageSrc ? "" : "hidden"
-            } max-w-[40vw] max-h-screen fixed left-0 bottom-0 z-10 bg-gradient-to-tr from-black`}
-          >
-            <img src={imageSrc} className="p-5" />
           </div>
         </div>
       )}

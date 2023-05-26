@@ -2,7 +2,6 @@
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import Link from "next/link";
 import React, { useContext } from "react";
 import { useRef, useEffect } from "react";
 import { toast } from "react-hot-toast";
@@ -87,12 +86,21 @@ export default function UploadWidget({ command, photoId }: { command?: string; p
         widgetRef.current.open();
       }}
       type="button"
-      className="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100"
+      className="p-3 text-indigo-600 bg-indigo-50 rounded-lg duration-150 hover:bg-indigo-100 active:bg-indigo-200"
     >
-      <img
-        className="w-5"
-        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACz0lEQVR4nO2Zz29MURTHP7rRMkSlNi3dof4MOmNlwWwJxbLRWEiRJigLlI34O6iF1MZKWDAdEkFH7XSvP236w5Mr35u8TN7E+3HfnWnyTvJNXubNPfd+5p533jl3oLDCCmuH7QSuAd+ATSCIqU3gq8YaH221XcDrBItvpTdAqZ0gTx1ABNKTrIt5958J3rYYNwisOwRZl8/UFmeSKLvtECKQbqUBGADu57AYV1oDPgL3gAOtIM4Bqx2w2CCmloFqM8RZ4E8HLC5IqK0wjAmnlQ5YVFot2TDz8Uw0gAfAMDAE7JbMdRl4CHzP4H/SgHyOuPFSO3UQmMkwQQ04kSDZDAOzKeYxCYDfETcMgLVDKfP/KLBDPvYDl4AX2p01yVxPAxeBXn3XjLkCbCSYzzwakTeygPwCjmtsDzChDBMn1m9qjN2dxQTzRn44IxgD8SrhTliIgZRhUtNYCxN3Z1LHf5RGQxALGfwshGDGfIPUFN89KXeiWR+AbqALqPsEsdlpwqHP6/JZ9gXSCGWnJYcgi6FsNu8DxLxUjV12CBFII/I95QPEbD16T7gGeS7fFR8ghzXZjxxAGvJ91AeI7a3zaANW5bvkA2RPjiDL8r3XB8gRTZalgm2lOfke8vmwT+cA8ky+T/oAMf0EqmJdg5yX78c+QGxm6c3hhbjP5wsxUKWKSnFXPsdjhpVTkFkVjd0qILP6ex8qGj/5BAnU2bko438C/fJ1NeYYpyAboRDr16+apv8eDFW9bWms7ANqYUxo3IjZsprvjIf+Tqi4aHVd7MyY4ttmsxEVgHOqAFZ1bT67EMpOXQqnJIcP/0DyPJz7ApwivpVjdoORZUycjJBV8+onKio1StIxpdZHGSvnugG56wEkb91B56Zxzp06VUtAn43Nqk62g22mLeB084NWdVwn+diJM62yRp9Otusd+qfPitY2GQ6nwgorrDC2nf0FxZxxcblnBPsAAAAASUVORK5CYII="
-      />
+      <svg
+        aria-hidden="true"
+        className="w-6 h-6"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fillRule="evenodd"
+          d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+          clipRule="evenodd"
+        ></path>
+      </svg>
     </button>
   ) : (
     <button
@@ -105,7 +113,7 @@ export default function UploadWidget({ command, photoId }: { command?: string; p
     >
       <img
         className="w-8 h-8"
-        src="data:image/png;base64,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"
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAACvUlEQVR4nO2aT2vUQBjGk971LHhu0btS8NiJh81IQSdBu3sUe9PNLJYKsqx4Klg8tbDQfgrxJtjN1EOh+A3qSfDmP/Sm8MhY3WazabK7SeikeR942U0yQ/b5zcw7M5tYFolEIpEmV3uAq8E+VuU+1o2JEGsdhQWrTHX2cCVQeCsVYGIEIY5KM99WWAwUvp21yTMB8PAAF6XCp+GNFH7JEK+kwosgxIYh0X00wHwpADoKTyOUPwfvcM2qk6TC+2FXC3Hfqpukwo//AB7v4ZJVN8lIorHqKEkAQD1A0hAA5QBJSRBVmQVsh3svGRc/mSs29XGdZgHb4WLb4R5OQuz2er25OgCwx80XAEFWA0CK+ZwQpPkAJjCfA4I0G4A234+ZzDyeKjFKcwGMtTzjYke3cPScLse4tzVzT5BmArDTWjYGILN85QA4Db+ZZiYBQDKEht+sJADGvVZaS54CYAzCEvfuVRKANqJ/vOOKlaRunAJgWPefebuqAFKVAWA6SQIA6gGShgAoB8hzmwQBOwjRaius6O9TJcGMupUAIAdoRp779eNGTgWgzSv0h9cHyF5VmQggCNEaecoag5AIIG7+OLJXVcYOATVqJgphDEBG+WouhABbKmzFTO32gLkRAMdjfjvW8ju6nFX5lSCSWzbr2KSWz78UxnhPSAnjWr6YvQAmgmCs+WI2Q0iFYLT54naDSIRgvPlit8P4mxg39Vsi+tPEhFf6/wFVFAHg1ANAQ4BTDgAlQV7DWWCJ+5cjzwq/W3UT4/7qCQDv0KqTbrpikXHxZTgNuv6TUm7EGncXmOuvOVysR0Of09dmqZsrXO+5w8Vr5orfkTXAxxvLyxdKAeBw70PKWxhHs9ctKFzvK7t1+3op5isA4E1WL8wth9+ZZ1x0Gfc2RkN09bXZ6uYJ8czh4kHpxkkkEsk6Z/oDa82SviKjS8IAAAAASUVORK5CYII="
       />
     </button>
   );

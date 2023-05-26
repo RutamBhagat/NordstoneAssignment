@@ -45,8 +45,8 @@ export default function Home() {
       <div className="flex h-screen text-gray-800">
         <div className="flex flex-row h-full w-full overflow-x-hidden">
           <div className="flex flex-col flex-auto pt-[60px]">
-            <div className="flex flex-col flex-auto flex-shrink-0 bg-gray-100 h-full p-4">
-              <div className="flex flex-col h-full overflow-x-auto mb-4">
+            <div className="flex flex-col flex-auto flex-shrink-0 bg-gray-100 h-full">
+              <div className="flex flex-col h-full overflow-x-auto pt-4">
                 <div className="flex flex-col h-full">
                   <div className="flex flex-wrap justify-center gap-3">
                     {data?.map((photo) => (
