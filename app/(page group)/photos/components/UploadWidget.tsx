@@ -1,11 +1,38 @@
 "use client";
+import { AuthenticationContext } from "@/app/context/AuthContext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { useRef, useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 export default function UploadWidget() {
+  const auth = useContext(AuthenticationContext);
+  const queryClient = useQueryClient();
+  let toastPostID: string;
   const cloudinaryRef = useRef(null);
   const widgetRef = useRef(null);
+
+  const { mutate } = useMutation(
+    async (secure_url: string) => {
+      axios.post("/api/photos/upload", {
+        email: auth?.data?.email,
+        url: secure_url,
+      });
+    },
+    {
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          toast.error(error?.response?.data.message, { id: toastPostID });
+        }
+      },
+      onSuccess: (data) => {
+        toast.success("Photo uploaded successfully.", { id: toastPostID });
+        queryClient.invalidateQueries(["photos"]);
+      },
+    }
+  );
 
   useEffect(() => {
     // @ts-ignore
@@ -15,6 +42,9 @@ export default function UploadWidget() {
       { cloudName: "drxe0t2yg", uploadPreset: "my_uploads" },
       (error: any, result: any) => {
         console.log("result", result);
+        if (result.event === "success") {
+          mutate(result.info.secure_url);
+        }
       }
     );
   }, []);
