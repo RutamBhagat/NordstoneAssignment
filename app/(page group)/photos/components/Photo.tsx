@@ -6,7 +6,6 @@ import { AuthenticationContext } from "@/app/context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
-import Link from "next/link";
 import UploadWidget from "./UploadWidget";
 
 export default function Photo({ photo }: { photo: PhotoType }) {
