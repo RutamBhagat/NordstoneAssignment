@@ -96,7 +96,7 @@ export default function CreatePost() {
         className="fixed left-5 bottom-5 border border-gray-500 rounded-lg z-20"
       >
         <div className="flex justify-center items-center px-3 py-2 rounded-lg bg-gray-50 border">
-          <UploadWidget />
+          <UploadWidget command={"CREATE"} />
           <input
             ref={fileInputRef}
             type="file"
