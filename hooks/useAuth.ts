@@ -2,9 +2,11 @@ import axios from "axios";
 import { useContext } from "react";
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { deleteCookie } from "cookies-next";
+import { useQueryClient } from "@tanstack/react-query";
 
 const useAuth = () => {
   const { setAuthState } = useContext(AuthenticationContext);
+  const queryClient = useQueryClient();
 
   const signIn = async ({ email, password }: { email: string; password: string }) => {
     setAuthState({
@@ -126,6 +128,7 @@ const useAuth = () => {
   };
 
   const signOut = async () => {
+    queryClient.clear();
     deleteCookie("jwt");
     setAuthState({
       loading: false,

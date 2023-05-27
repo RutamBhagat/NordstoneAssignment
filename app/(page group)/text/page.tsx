@@ -18,6 +18,7 @@ export default function page() {
       const response = await axios.post("/api/posts/getPosts", { email: auth.data?.email || "" });
       return response.data;
     },
+    enabled: true, // Fetch the data every time the component mounts
   });
 
   if (isLoading) {

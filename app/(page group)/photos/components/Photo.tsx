@@ -40,7 +40,11 @@ export default function Photo({ photo }: { photo: PhotoType }) {
 
   return (
     <>
-      <img onClick={toggleFullscreen} src={photo.url} className="h-64 cursor-pointer" />
+      <img
+        onClick={toggleFullscreen}
+        src={photo.url}
+        className="w-full h-full cursor-pointer object-cover object-center"
+      />
       {fullscreen && (
         <div onClick={toggleFullscreen} className="fixed z-50 inset-0 bg-black bg-opacity-75">
           <div className="w-full h-full flex justify-center items-center cursor-pointer">

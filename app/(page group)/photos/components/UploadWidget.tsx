@@ -5,6 +5,7 @@ import axios, { AxiosError } from "axios";
 import React, { useContext } from "react";
 import { useRef, useEffect } from "react";
 import { toast } from "react-hot-toast";
+import ts from "typescript";
 
 export default function UploadWidget({ command, photoId }: { command?: string; photoId?: number }) {
   const auth = useContext(AuthenticationContext);
@@ -60,23 +61,28 @@ export default function UploadWidget({ command, photoId }: { command?: string; p
 
   useEffect(() => {
     // @ts-ignore
-    cloudinaryRef.current = window.cloudinary;
-    // @ts-ignore
-    widgetRef.current = cloudinaryRef.current.createUploadWidget(
-      { cloudName: "drxe0t2yg", uploadPreset: "my_uploads" },
-      (error: any, result: any) => {
-        console.log("result", result);
-        if (result.event === "success") {
-          if (command === "CREATE") {
-            uploadMutation.mutate(result.info.secure_url);
-          } else {
-            if (photoId) {
-              updateMutation.mutate({ photoId: photoId, secure_url: `${result.info.secure_url}` });
+    if (window.cloudinary !== undefined) {
+      // @ts-ignore
+      cloudinaryRef.current = window?.cloudinary;
+      // @ts-ignore
+      if (cloudinaryRef?.current?.createUploadWidget !== undefined)
+        // @ts-ignore
+        widgetRef.current = cloudinaryRef?.current?.createUploadWidget(
+          { cloudName: "drxe0t2yg", uploadPreset: "my_uploads" },
+          (error: any, result: any) => {
+            console.log("result", result);
+            if (result.event === "success") {
+              if (command === "CREATE") {
+                uploadMutation.mutate(result.info.secure_url);
+              } else {
+                if (photoId) {
+                  updateMutation.mutate({ photoId: photoId, secure_url: `${result.info.secure_url}` });
+                }
+              }
             }
           }
-        }
-      }
-    );
+        );
+    }
   }, []);
 
   return command === "CREATE" ? (

@@ -2,11 +2,12 @@
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useState, useRef, useContext } from "react";
+import { useContext } from "react";
 import LoadingComponent from "../text/components/LoadingComponent";
 import ErrorComponent from "../text/components/ErrorComponent";
 import CreatePhoto from "./components/CreatePhoto";
 import Photo from "./components/Photo";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 export type PhotoType = {
   id: string;
@@ -32,12 +33,12 @@ export default function Home() {
   });
 
   if (isLoading) {
-    <LoadingComponent />;
+    return <LoadingComponent />;
   }
 
   if (isError) {
     const { message } = error as Error;
-    <ErrorComponent message={message} />;
+    return <ErrorComponent message={message} />;
   }
 
   return (
@@ -46,13 +47,15 @@ export default function Home() {
         <div className="flex flex-row h-full w-full overflow-x-hidden">
           <div className="flex flex-col flex-auto pt-[60px]">
             <div className="flex flex-col flex-auto flex-shrink-0 bg-gray-100 h-full">
-              <div className="flex flex-col h-full overflow-x-auto pt-4">
-                <div className="flex flex-col h-full">
-                  <div className="flex flex-wrap justify-center gap-3">
-                    {data?.map((photo) => (
-                      <Photo key={photo.id} photo={photo} />
-                    ))}
-                  </div>
+              <div className="flex flex-col h-full overflow-x-auto">
+                <div className="flex flex-col h-full p-3">
+                  <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
+                    <Masonry gutter="12px">
+                      {data?.map((photo) => (
+                        <Photo key={photo.id} photo={photo} />
+                      ))}
+                    </Masonry>
+                  </ResponsiveMasonry>
                 </div>
               </div>
               <CreatePhoto />
