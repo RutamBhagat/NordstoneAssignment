@@ -12,7 +12,7 @@ import { AuthenticationContext } from "@/app/context/AuthContext";
 
 export default function page() {
   const auth = useContext(AuthenticationContext);
-  const { data, error, isError, isLoading } = useQuery<PostType[]>({
+  let { data, error, isError, isLoading } = useQuery<PostType[]>({
     queryKey: ["posts"],
     queryFn: async () => {
       const response = await axios.post("/api/posts/getPosts", { email: auth.data?.email || "" });
@@ -22,12 +22,12 @@ export default function page() {
   });
 
   if (isLoading) {
-    <LoadingComponent />;
+    return <LoadingComponent />;
   }
 
   if (isError) {
     const { message } = error as Error;
-    <ErrorComponent message={message} />;
+    return <ErrorComponent message={message} />;
   }
 
   return (
