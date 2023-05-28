@@ -43,26 +43,16 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex h-screen text-gray-800">
-        <div className="flex flex-row h-full w-full overflow-x-hidden">
-          <div className="flex flex-col flex-auto pt-[60px]">
-            <div className="flex flex-col flex-auto flex-shrink-0 bg-gray-100 h-full">
-              <div className="flex flex-col h-full overflow-x-auto">
-                <div className="flex flex-col h-full p-3">
-                  <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}>
-                    <Masonry gutter="12px">
-                      {data?.map((photo) => (
-                        <Photo key={photo.id} photo={photo} />
-                      ))}
-                    </Masonry>
-                  </ResponsiveMasonry>
-                </div>
-              </div>
-              <CreatePhoto />
-            </div>
-          </div>
-        </div>
+      <div className="flex flex-col flex-auto flex-shrink-0 bg-gray-100 h-full m-3 pt-[60px]">
+        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 600: 2, 900: 3 }}>
+          <Masonry gutter="12px">
+            {data?.map((photo) => (
+              <Photo key={photo.id} photo={photo} />
+            ))}
+          </Masonry>
+        </ResponsiveMasonry>
       </div>
+      <CreatePhoto />
     </>
   );
 }
