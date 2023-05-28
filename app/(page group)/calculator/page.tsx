@@ -64,12 +64,9 @@ export default function page() {
     <div className="min-h-screen flex justify-center items-center gap-10">
       <div className="text-xl p-3 w-full max-w-xl rounded-xl bg-gray-900 mt-[60px]">
         <form>
-          <input
-            className="outline-none h-[100px] w-full bg-gray-900 text-white text-right text-[25px] font-medium tracking-[1px] border-0"
-            type="text"
-            onChange={(e) => {}}
-            value={result}
-          />
+          <div className="flex justify-end items-center cursor-default outline-none h-[100px] w-full bg-gray-900 text-white text-right text-[25px] font-medium tracking-[1px] border-0">
+            {result}
+          </div>
         </form>
 
         <div className="grid grid-cols-4">
