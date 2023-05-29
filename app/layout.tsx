@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="min-h-screen w-screen">
           <QueryWrapper>
             <AuthContext>
-              <main className="max-w-screen-2xl m-auto">{children}</main>
+              <main className="max-w-screen m-auto">{children}</main>
             </AuthContext>
           </QueryWrapper>
         </main>
