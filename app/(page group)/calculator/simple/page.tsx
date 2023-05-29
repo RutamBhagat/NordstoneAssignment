@@ -9,7 +9,7 @@ export default function page() {
   const [num2, setNum2] = useState("0");
   const [operation, setOperation] = useState("+");
 
-  function sanitizeNum1(numberString: string) {
+  const sanitizeNum1 = (numberString: string) => {
     let sanitizedNumber = numberString;
 
     sanitizedNumber = sanitizedNumber.replace(/^\.+|\.+$/g, "");
@@ -17,9 +17,9 @@ export default function page() {
 
     setNum1(sanitizedNumber);
     return sanitizedNumber;
-  }
+  };
 
-  function sanitizeNum2(numberString: string) {
+  const sanitizeNum2 = (numberString: string) => {
     let sanitizedNumber = numberString;
 
     sanitizedNumber = sanitizedNumber.replace(/^\.+|\.+$/g, "");
@@ -27,7 +27,7 @@ export default function page() {
 
     setNum2(sanitizedNumber);
     return sanitizedNumber;
-  }
+  };
 
   //   const calculate = async () => {
   //     try {

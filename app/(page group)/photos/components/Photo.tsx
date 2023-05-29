@@ -1,44 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
-import { toast } from "react-hot-toast";
+import { AxiosError } from "axios";
 import UploadWidget from "./UploadWidget";
+import { toast } from "react-hot-toast";
+import deletePhoto from "@/lib/deletePhoto";
 
 export default function Photo({ photo }: { photo: PhotoType }) {
   const [fullscreen, setFullscreen] = useState(false);
   const toggleFullscreen = () => setFullscreen(!fullscreen);
   const queryClient = useQueryClient();
-  let toastPostID: string;
+  const toastPostID = useRef<string | undefined>();
 
-  //delete a photo
-  const { mutate } = useMutation(
-    async (id: string) => {
-      try {
-        const response = await axios.post("/api/photos/delete", {
-          id: id,
-        });
-        return response.data;
-      } catch (error) {
-        console.log(error);
+  // delete a photo
+  const { mutate } = useMutation(deletePhoto, {
+    onMutate: () => {
+      toastPostID.current = toast.loading("Deleting the photo...");
+    },
+    onSuccess: (data) => {
+      toast.success("Photo deleted successfully.", { id: toastPostID.current });
+      queryClient.invalidateQueries(["photos"]);
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error?.response?.data.message, { id: toastPostID.current });
       }
     },
-    {
-      onMutate: () => {
-        toastPostID = toast.loading("Uploading the photo...");
-      },
-      onSuccess: (data) => {
-        toast.success("Photo deleted successfully.", { id: toastPostID });
-        queryClient.invalidateQueries(["photos"]);
-      },
-      onError: (error) => {
-        if (error instanceof AxiosError) {
-          toast.error(error?.response?.data.message, { id: toastPostID });
-        }
-      },
-    }
-  );
+  });
 
   return (
     <>
