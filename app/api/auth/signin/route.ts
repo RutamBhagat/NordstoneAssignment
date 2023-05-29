@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       errorMessage: "Email is not valid",
     },
     {
-      valid: validator.isLength(password, { min: 1 }),
+      valid: validator.isStrongPassword(password),
       errorMessage: "Password is invalid",
     },
   ];

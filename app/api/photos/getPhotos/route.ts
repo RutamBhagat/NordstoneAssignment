@@ -1,9 +1,14 @@
+import validator from "validator";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const { email } = body;
+
+  if (validator.isEmail(email) === false) {
+    return NextResponse.json({ err: "Email not found" }, { status: 403 });
+  }
 
   // Get user
   const prismaUser = await prisma.user.findUnique({
@@ -22,6 +27,7 @@ export async function POST(request: NextRequest) {
         createdAt: "asc",
       },
     });
+
     return NextResponse.json(data, { status: 200 });
   } catch (err) {
     return NextResponse.json({ err: "Error has occured while getting photos" }, { status: 403 });

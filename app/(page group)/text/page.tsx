@@ -1,24 +1,26 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import shortid from "shortid";
 import CreatePost from "./components/CreatePost";
 import ErrorComponent from "./components/ErrorComponent";
 import LoadingComponent from "./components/LoadingComponent";
 import Posts from "./components/Posts";
-import { type PostType } from "./components/Posts";
 import { useContext } from "react";
 import { AuthenticationContext } from "@/app/context/AuthContext";
 
 export default function page() {
   const auth = useContext(AuthenticationContext);
-  let { data, error, isError, isLoading } = useQuery<PostType[]>({
+
+  if (!auth.data?.email) {
+    return <LoadingComponent />;
+  }
+
+  const { data, error, isError, isLoading } = useQuery<PostType[]>({
     queryKey: ["posts"],
     queryFn: async () => {
-      const response = await axios.post("/api/posts/getPosts", { email: auth.data?.email || "" });
+      const response = await axios.post("/api/posts/getPosts", { email: auth.data!.email! });
       return response.data;
     },
-    enabled: true, // Fetch the data every time the component mounts
   });
 
   if (isLoading) {
@@ -39,7 +41,7 @@ export default function page() {
               <div className="flex flex-col h-full">
                 <div className="grid grid-cols-12 gap-y-2">
                   {data?.map((post) => (
-                    <Posts key={shortid.generate()} post={post} />
+                    <Posts key={post.id} post={post} />
                   ))}
                 </div>
               </div>

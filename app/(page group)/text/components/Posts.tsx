@@ -1,31 +1,11 @@
 "use client";
+import React, { useContext } from "react";
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
-import React, { useContext } from "react";
+import { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
-
-function getFormattedIST(dateString: string): string {
-  const options: Intl.DateTimeFormatOptions = {
-    timeZone: "Asia/Kolkata",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
-  return new Intl.DateTimeFormat("en-IN", options).format(new Date(dateString));
-}
-
-export type PostType = {
-  id: string;
-  title: string;
-  createdAt: string;
-  user: {
-    id: string;
-    email: string;
-  };
-  updatedAt: string;
-  userId: string;
-};
+import getFormattedIST from "@/lib/getFormattedIST";
+import deletePost from "@/lib/deletePost";
 
 export default function Post({ post }: { post: PostType }) {
   const { data } = useContext(AuthenticationContext);
@@ -33,33 +13,17 @@ export default function Post({ post }: { post: PostType }) {
   let toastPostID: string;
 
   //create a post
-  const { mutate } = useMutation(
-    async (id: string) => {
-      try {
-        const response = await axios.post("/api/posts/deletePost", {
-          id: id,
-        });
-        return response.data;
-      } catch (error) {
-        console.log(error);
+  const { mutate } = useMutation(deletePost, {
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error?.response?.data.message, { id: toastPostID });
       }
     },
-    {
-      onError: (error) => {
-        if (error instanceof AxiosError) {
-          toast.error(error?.response?.data.message, { id: toastPostID });
-        }
-      },
-      onSuccess: (data) => {
-        toast.success("Text deleted successfully.", { id: toastPostID });
-        queryClient.invalidateQueries(["posts"]);
-      },
-    }
-  );
-
-  const deletePost = async (id: string) => {
-    mutate(id);
-  };
+    onSuccess: (data) => {
+      toast.success("Text deleted successfully.", { id: toastPostID });
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
 
   return (
     <>
@@ -67,7 +31,7 @@ export default function Post({ post }: { post: PostType }) {
         <div className="flex items-center justify-start flex-row-reverse">
           <button
             onClick={() => {
-              deletePost(post.id);
+              mutate(post.id);
             }}
             className="group relative flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0"
           >

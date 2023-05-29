@@ -24,10 +24,14 @@ export type PhotoType = {
 export default function Home() {
   const auth = useContext(AuthenticationContext);
 
+  if (!auth.data?.email) {
+    return <LoadingComponent />;
+  }
+
   const { data, error, isError, isLoading } = useQuery<PhotoType[]>({
     queryKey: ["photos"],
     queryFn: async () => {
-      const response = await axios.post("/api/photos/getPhotos", { email: auth?.data?.email || "" });
+      const response = await axios.post("/api/photos/getPhotos", { email: auth.data!.email! });
       return response.data;
     },
   });
