@@ -22,7 +22,11 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 border-gray-200 px-2 sm:px-4 py-2.5 h-[60px] bg-gray-900">
       <div className="container flex rounded flex-wrap items-center justify-between mx-auto">
         <Link href="/" className="flex items-center">
-          <img src="https://img.icons8.com/nolan/512/dyndns.png" className="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />
+          <img
+            src="https://media.licdn.com/dms/image/C4D0BAQHGSg1Bni4TYw/company-logo_200_200/0/1616853744387?e=2147483647&v=beta&t=tF_3p6OZKkNd0TyC9oXS45JkkyuVm6nLO6TIC1ilIqw"
+            className="h-6 mr-3 sm:h-9"
+            alt="Flowbite Logo"
+          />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-white">Nordstone</span>
         </Link>
         <div className="block w-auto" id="navbar-default">
