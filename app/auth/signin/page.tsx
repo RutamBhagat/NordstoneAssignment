@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
-import React, { type ChangeEvent, type FormEvent, useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, type ChangeEvent, type FormEvent } from "react";
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { useRouter } from "next/navigation";
 
@@ -12,11 +12,11 @@ const defaultFormFields = {
 
 export default function page() {
   const router = useRouter();
-  const [input, setInput] = useState(defaultFormFields);
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [showError, setShowError] = useState(false);
   const { signIn } = useAuth();
   const { error } = useContext(AuthenticationContext);
+  const [input, setInput] = useState(defaultFormFields);
+  const [showError, setShowError] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
     if (input.email && input.password) {
@@ -73,7 +73,6 @@ export default function page() {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="sr-only">Info</span>
                 <div className="ml-3 text-sm font-medium">{error}</div>
                 <button
                   onClick={() => {
@@ -81,9 +80,7 @@ export default function page() {
                   }}
                   type="button"
                   className="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
-                  aria-label="Close"
                 >
-                  <span className="sr-only">Close</span>
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path
                       fillRule="evenodd"
@@ -96,19 +93,18 @@ export default function page() {
             )}
             <h1 className="text-4xl font-medium">Login</h1>
             <p className="text-slate-500">Hi, Welcome back</p>
-            <form autoComplete="new-password" onSubmit={handleSubmit} action="" className="mt-10 mb-5">
+            <form onSubmit={handleSubmit} className="mt-10 mb-5">
               <div className="flex flex-col space-y-5">
                 <label htmlFor="email">
                   <p className="pb-2 font-medium text-slate-700">Email address</p>
                   <input
                     required
                     onChange={handleChange}
-                    id="email"
                     name="email"
                     type="email"
                     value={input.email}
-                    className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
                     placeholder="Enter email address"
+                    className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
                   />
                 </label>
                 <label htmlFor="password">
@@ -116,12 +112,11 @@ export default function page() {
                   <input
                     required
                     onChange={handleChange}
-                    id="password"
                     name="password"
                     type="password"
                     value={input.password}
-                    className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
                     placeholder="Enter your password"
+                    className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
                   />
                 </label>
                 <div className="flex justify-end">

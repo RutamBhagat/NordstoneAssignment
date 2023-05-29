@@ -1,26 +1,9 @@
 "use client";
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect, createContext, ReactNode } from "react";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-
-type User = {
-  id: string;
-  email: string;
-  posts: any[];
-};
-
-type State = {
-  loading: boolean;
-  data: User | null;
-  error: string | null;
-};
-
-//this extends the State type with the setAuthState function
-type AuthenticationContextType = State & {
-  setAuthState: React.Dispatch<React.SetStateAction<State>>;
-};
 
 export const AuthenticationContext = createContext<AuthenticationContextType>({
   loading: false,
@@ -29,7 +12,7 @@ export const AuthenticationContext = createContext<AuthenticationContextType>({
   setAuthState: () => {},
 });
 
-export default function AuthContext({ children }: { children: React.ReactNode }) {
+export default function AuthContext({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
 
