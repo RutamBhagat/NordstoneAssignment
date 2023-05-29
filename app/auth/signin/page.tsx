@@ -4,6 +4,7 @@ import useAuth from "@/hooks/useAuth";
 import React, { useEffect, useState, useContext, type ChangeEvent, type FormEvent } from "react";
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { useRouter } from "next/navigation";
+import ZoomingBackground from "../components/ZoomingBackground";
 
 const defaultFormFields = {
   email: "",
@@ -39,8 +40,8 @@ export default function page() {
     event.preventDefault();
     try {
       const response = await signIn(input);
-      router.push("/");
       resetFormFields();
+      router.push("/");
     } catch (error) {
       setShowError(true);
       console.log("error", error);
@@ -54,11 +55,9 @@ export default function page() {
           <div className="relative flex w-full flex-col justify-center px-10 md:w-1/2 md:px-4 lg:px-10">
             {error && (
               <div
-                id="alert-2"
                 className={`absolute top-2 left-2 right-2 flex p-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 ${
                   showError ? "" : "hidden"
                 }`}
-                role="alert"
               >
                 <svg
                   aria-hidden="true"
@@ -95,7 +94,7 @@ export default function page() {
             <p className="text-slate-500">Hi, Welcome back</p>
             <form onSubmit={handleSubmit} className="mt-10 mb-5">
               <div className="flex flex-col space-y-5">
-                <label htmlFor="email">
+                <label>
                   <p className="pb-2 font-medium text-slate-700">Email address</p>
                   <input
                     required
@@ -107,7 +106,7 @@ export default function page() {
                     className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
                   />
                 </label>
-                <label htmlFor="password">
+                <label>
                   <p className="pb-2 font-medium text-slate-700">Password</p>
                   <input
                     required
@@ -147,17 +146,7 @@ export default function page() {
               </div>
             </form>
           </div>
-          <div className="group relative items-center justify-center m-3 overflow-hidden shadow-xl rounded-2xl w-1/2 hidden md:flex">
-            <img
-              src="https://images.unsplash.com/photo-1517999144091-3d9dca6d1e43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80"
-              className="absolute w-full h-full transition-all duration-500 ease-in-out transform object-center object-cover hover:scale-150 group-hover:scale-150"
-            ></img>
-            <h1 className="absolute cursor-default text-5xl font-black transition-all duration-500 ease-in-out transform scale-150 text-gray-50 opacity-60 text-center hover:scale-100 group-hover:scale-100">
-              NORD
-              <br />
-              STONE
-            </h1>
-          </div>
+          <ZoomingBackground imageSrc="https://images.unsplash.com/photo-1517999144091-3d9dca6d1e43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80" />
         </div>
       </div>
     </div>

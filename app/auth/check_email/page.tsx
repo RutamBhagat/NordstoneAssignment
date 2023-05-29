@@ -1,19 +1,20 @@
 "use client";
-import useAuth from "@/hooks/useAuth";
-import React, { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
-import { AuthenticationContext } from "@/app/context/AuthContext";
 import Link from "next/link";
+import useAuth from "@/hooks/useAuth";
+import React, { useContext, useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import { AuthenticationContext } from "@/app/context/AuthContext";
+import ZoomingBackground from "../components/ZoomingBackground";
 
 const defaultFormFields = {
   email: "",
 };
 
 export default function page() {
+  const { checkEmail } = useAuth();
+  const { error } = useContext(AuthenticationContext);
   const [input, setInput] = useState(defaultFormFields);
   const [isDisabled, setIsDisabled] = useState(true);
   const [showError, setShowError] = useState(false);
-  const { checkEmail } = useAuth();
-  const { error } = useContext(AuthenticationContext);
 
   useEffect(() => {
     if (input.email) {
@@ -49,13 +50,11 @@ export default function page() {
           <div className="relative flex w-full flex-col justify-center px-10 md:w-1/2 md:px-4 lg:px-10">
             {error && (
               <div
-                id="alert-2"
                 className={`absolute top-2 left-2 right-2 flex p-4 rounded-lg ${
                   error === "SUCCESS: Check your email for link to reset password"
                     ? "text-green-800 bg-green-50"
                     : "text-red-800 bg-red-50"
                 } ${showError ? "" : "hidden"}`}
-                role="alert"
               >
                 <svg
                   aria-hidden="true"
@@ -70,7 +69,6 @@ export default function page() {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="sr-only">Info</span>
                 <div className="ml-3 text-sm font-medium">{error}</div>
                 <button
                   onClick={() => {
@@ -82,7 +80,6 @@ export default function page() {
                       ? "text-green-800 bg-green-50"
                       : "text-red-800 bg-red-50"
                   }`}
-                  aria-label="Close"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -96,19 +93,18 @@ export default function page() {
             )}
             <h1 className="text-4xl font-medium">Check email</h1>
             <p className="text-slate-500">Enter your email</p>
-            <form autoComplete="new-password" onSubmit={handleSubmit} action="#" className="mt-10 mb-5">
+            <form onSubmit={handleSubmit} className="mt-10 mb-5">
               <div className="flex flex-col space-y-5">
-                <label htmlFor="password">
+                <label>
                   <p className="pb-2 font-medium text-slate-700">Email</p>
                   <input
                     required
                     onChange={handleChange}
-                    id="email"
                     name="email"
                     type="email"
                     value={input.email}
-                    className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
                     placeholder="Enter your email"
+                    className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
                   />
                 </label>
                 <button
@@ -131,17 +127,7 @@ export default function page() {
               </div>
             </form>
           </div>
-          <div className="group relative items-center justify-center m-3 overflow-hidden shadow-xl rounded-2xl w-1/2 hidden md:flex">
-            <img
-              src="https://images.unsplash.com/photo-1544098281-073ae35c98b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
-              className="absolute w-full h-full transition-all duration-500 ease-in-out transform object-center object-cover hover:scale-150 group-hover:scale-150"
-            ></img>
-            <h1 className="absolute cursor-default text-5xl font-black transition-all duration-500 ease-in-out transform scale-150 text-gray-50 opacity-60 text-center hover:scale-100 group-hover:scale-100">
-              NORD
-              <br />
-              STONE
-            </h1>
-          </div>
+          <ZoomingBackground imageSrc="https://images.unsplash.com/photo-1544098281-073ae35c98b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" />
         </div>
       </div>
     </div>

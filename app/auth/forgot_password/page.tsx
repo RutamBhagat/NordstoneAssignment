@@ -1,11 +1,12 @@
 "use client";
-import useAuth from "@/hooks/useAuth";
-import React, { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
-import { AuthenticationContext } from "@/app/context/AuthContext";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import axios from "axios";
+import Link from "next/link";
+import useAuth from "@/hooks/useAuth";
+import React, { useContext, useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import { AuthenticationContext } from "@/app/context/AuthContext";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import ZoomingBackground from "../components/ZoomingBackground";
 
 const defaultFormFields = {
   password: "",
@@ -17,12 +18,12 @@ export default function page() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
-  const [email, setEmail] = useState("josh@gmail.com");
+  const { resetPassword } = useAuth();
+  const { error } = useContext(AuthenticationContext);
+  const [email, setEmail] = useState("");
   const [input, setInput] = useState(defaultFormFields);
   const [isDisabled, setIsDisabled] = useState(true);
   const [showError, setShowError] = useState(false);
-  const { resetPassword } = useAuth();
-  const { error } = useContext(AuthenticationContext);
 
   useEffect(() => {
     if (input.password && input.confirm_password) {
@@ -56,8 +57,6 @@ export default function page() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      // This is hard coded for now
-      console.log("{ ...input, email: email }", { ...input, email: email });
       const response = await resetPassword({ ...input, email: email });
       resetFormFields();
       router.push("/");
@@ -73,11 +72,9 @@ export default function page() {
           <div className="relative flex w-full flex-col justify-center px-10 md:w-1/2 md:px-4 lg:px-10">
             {error && (
               <div
-                id="alert-2"
                 className={`absolute top-2 left-2 right-2 flex p-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 ${
                   showError ? "" : "hidden"
                 }`}
-                role="alert"
               >
                 <svg
                   aria-hidden="true"
@@ -92,7 +89,6 @@ export default function page() {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="sr-only">Info</span>
                 <div className="ml-3 text-sm font-medium">{error}</div>
                 <button
                   onClick={() => {
@@ -100,9 +96,7 @@ export default function page() {
                   }}
                   type="button"
                   className="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
-                  aria-label="Close"
                 >
-                  <span className="sr-only">Close</span>
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path
                       fillRule="evenodd"
@@ -115,32 +109,30 @@ export default function page() {
             )}
             <h1 className="text-4xl font-medium">Forgot Password?</h1>
             <p className="text-slate-500">Reset your password</p>
-            <form autoComplete="new-password" onSubmit={handleSubmit} action="#" className="mt-10 mb-5">
+            <form onSubmit={handleSubmit} className="mt-10 mb-5">
               <div className="flex flex-col space-y-5">
-                <label htmlFor="password">
+                <label>
                   <p className="pb-2 font-medium text-slate-700">Password</p>
                   <input
                     required
                     onChange={handleChange}
-                    id="password"
                     name="password"
                     type="password"
                     value={input.password}
-                    className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
                     placeholder="Enter your password"
+                    className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
                   />
                 </label>
-                <label htmlFor="confirm_password">
+                <label>
                   <p className="pb-2 font-medium text-slate-700">Confirm Password</p>
                   <input
                     required
                     onChange={handleChange}
-                    id="confirm_password"
                     name="confirm_password"
                     type="password"
                     value={input.confirm_password}
-                    className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
                     placeholder="Confirm your password"
+                    className="w-full rounded-lg border border-slate-200 py-3 px-3 hover:shadow focus:border-slate-500 focus:outline-none"
                   />
                 </label>
                 <button
@@ -163,17 +155,7 @@ export default function page() {
               </div>
             </form>
           </div>
-          <div className="group relative items-center justify-center m-3 overflow-hidden shadow-xl rounded-2xl w-1/2 hidden md:flex">
-            <img
-              src="https://images.unsplash.com/photo-1494861895304-fb272971c078?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
-              className="absolute w-full h-full transition-all duration-500 ease-in-out transform object-center object-cover hover:scale-150 group-hover:scale-150"
-            ></img>
-            <h1 className="absolute cursor-default text-5xl font-black transition-all duration-500 ease-in-out transform scale-150 text-gray-50 opacity-60 text-center hover:scale-100 group-hover:scale-100">
-              NORD
-              <br />
-              STONE
-            </h1>
-          </div>
+          <ZoomingBackground imageSrc="https://images.unsplash.com/photo-1494861895304-fb272971c078?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" />
         </div>
       </div>
     </div>
