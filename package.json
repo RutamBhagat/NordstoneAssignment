@@ -30,6 +30,7 @@
     "react-datepicker": "^4.11.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",
+    "react-push-notification": "^1.5.3",
     "react-responsive-masonry": "^2.1.7",
     "shortid": "^2.2.16",
     "temporary-email-validator": "^1.0.2",

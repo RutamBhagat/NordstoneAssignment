@@ -55,6 +55,9 @@ dependencies:
   react-hot-toast:
     specifier: ^2.4.1
     version: 2.4.1(csstype@3.1.2)(react-dom@18.2.0)(react@18.2.0)
+  react-push-notification:
+    specifier: ^1.5.3
+    version: 1.5.3(react@18.2.0)
   react-responsive-masonry:
     specifier: ^2.1.7
     version: 2.1.7
@@ -2102,6 +2105,14 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       react-fast-compare: 3.2.2
       warning: 4.0.3
+
+  /react-push-notification@1.5.3(react@18.2.0):
+    resolution: {integrity: sha512-0RVt28G1bJFXq9VeBK4fSLMGuwSqktCw8pHI/3yIMZDNqoB1D5K70LGJAWbbUvTZWrStZKM4VJKXg62MpYQfuw==}
+    peerDependencies:
+      react: ^16.8.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /react-responsive-masonry@2.1.7:
     resolution: {integrity: sha512-/jOqnTVNtO8zRJMTl6ZXBex7EFYEIFBLVlkIFjiCT7omfm0CgNF2z4ST8RIr0v2ut15NWAQs7Q3kJJPhMoe3Ew==}
