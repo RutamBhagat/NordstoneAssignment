@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { type PhotoType } from "../page";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
@@ -14,7 +13,7 @@ export default function Photo({ photo }: { photo: PhotoType }) {
   let toastPostID: string;
 
   //delete a photo
-  const deleteMutation = useMutation(
+  const { mutate } = useMutation(
     async (id: string) => {
       try {
         const response = await axios.post("/api/photos/delete", {
@@ -26,14 +25,17 @@ export default function Photo({ photo }: { photo: PhotoType }) {
       }
     },
     {
-      onError: (error) => {
-        if (error instanceof AxiosError) {
-          toast.error(error?.response?.data.message, { id: toastPostID });
-        }
+      onMutate: () => {
+        toastPostID = toast.loading("Uploading the photo...");
       },
       onSuccess: (data) => {
         toast.success("Photo deleted successfully.", { id: toastPostID });
         queryClient.invalidateQueries(["photos"]);
+      },
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          toast.error(error?.response?.data.message, { id: toastPostID });
+        }
       },
     }
   );
@@ -64,7 +66,7 @@ export default function Photo({ photo }: { photo: PhotoType }) {
               >
                 <button
                   onClick={() => {
-                    deleteMutation.mutate(photo.id);
+                    mutate(photo.id);
                   }}
                   type="button"
                   className="p-3 text-indigo-600 bg-indigo-50 rounded-lg duration-150 hover:bg-indigo-100 active:bg-indigo-200"

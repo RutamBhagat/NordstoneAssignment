@@ -1,8 +1,8 @@
+import Script from "next/script";
+import QueryWrapper from "./auth/QueryWrapper";
 import AuthContext from "./context/AuthContext";
 import "./globals.css";
 import "react-datepicker/dist/react-datepicker.css";
-import QueryWrapper from "./auth/QueryWrapper";
-import Script from "next/script";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

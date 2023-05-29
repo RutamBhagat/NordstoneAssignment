@@ -2,11 +2,11 @@
 import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import React, { useContext } from "react";
-import { AuthenticationContext } from "../context/AuthContext";
+import { AuthenticationContext } from "../../context/AuthContext";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
-const Navbar = () => {
+export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -29,7 +29,7 @@ const Navbar = () => {
           />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-white">Nordstone</span>
         </Link>
-        <div className="block w-auto" id="navbar-default">
+        <div className="block w-auto">
           <ul className="font-medium flex p-0 rounded-lg space-x-8 mt-0 border-0 bg-gray-900 border-gray-700">
             <li>
               <Link
@@ -94,6 +94,4 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}

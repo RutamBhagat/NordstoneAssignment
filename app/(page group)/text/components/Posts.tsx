@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -10,18 +10,23 @@ import deletePost from "@/lib/deletePost";
 export default function Post({ post }: { post: PostType }) {
   const { data } = useContext(AuthenticationContext);
   const queryClient = useQueryClient();
-  let toastPostID: string;
+  const toastPostID = useRef<string | undefined>(undefined);
 
-  //create a post
+  //delete a post
   const { mutate } = useMutation(deletePost, {
+    onMutate: () => {
+      toastPostID.current = toast.loading("Deleting the text...");
+    },
+    onSuccess: () => {
+      toast.success("Text deleted successfully.", { id: toastPostID.current });
+      toastPostID.current = undefined; // Reset toastPostID after successful deletion
+      queryClient.invalidateQueries(["posts"]);
+    },
     onError: (error) => {
       if (error instanceof AxiosError) {
-        toast.error(error?.response?.data.message, { id: toastPostID });
+        toast.error(error?.response?.data.message, { id: toastPostID.current });
+        toastPostID.current = undefined; // Reset toastPostID after error
       }
-    },
-    onSuccess: (data) => {
-      toast.success("Text deleted successfully.", { id: toastPostID });
-      queryClient.invalidateQueries(["posts"]);
     },
   });
 

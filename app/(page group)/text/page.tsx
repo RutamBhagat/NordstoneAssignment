@@ -1,12 +1,12 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { AuthenticationContext } from "@/app/context/AuthContext";
+import { useQuery } from "@tanstack/react-query";
+import { useContext } from "react";
 import CreatePost from "./components/CreatePost";
 import ErrorComponent from "../components/ErrorComponent";
 import LoadingComponent from "../components/LoadingComponent";
 import Posts from "./components/Posts";
-import { useContext } from "react";
-import { AuthenticationContext } from "@/app/context/AuthContext";
 
 export default function page() {
   const auth = useContext(AuthenticationContext);

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
@@ -8,21 +8,24 @@ export default function AddComments({ id }: { id: string }) {
   const [title, setTitle] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const queryClient = useQueryClient();
-  let commentToastId: string;
+  const commentToastId = useRef<string | undefined>();
 
   const { mutate } = useMutation(
     async (data: { title: string; postId: string }) => axios.post("/api/posts/addComment", { data }),
     {
+      onMutate: () => {
+        commentToastId.current = toast.loading("Creating your comment...");
+      },
       onSuccess: (data) => {
         setTitle("");
         setIsDisabled(false);
         queryClient.invalidateQueries(["detail-post"]);
-        toast.success("Added your comment", { id: commentToastId });
+        toast.success("Added your comment", { id: commentToastId.current });
       },
       onError: (error) => {
         setIsDisabled(false);
         if (error instanceof AxiosError) {
-          toast.error(error?.response?.data.message, { id: commentToastId });
+          toast.error(error?.response?.data.message, { id: commentToastId.current });
         }
       },
     }
@@ -31,7 +34,6 @@ export default function AddComments({ id }: { id: string }) {
   const submitComment = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsDisabled(true);
-    commentToastId = toast.loading("Adding your comment...", { id: commentToastId });
     mutate({ title, postId: id });
   };
 

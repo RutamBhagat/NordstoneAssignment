@@ -1,25 +1,13 @@
 "use client";
+import axios from "axios";
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useContext } from "react";
-import LoadingComponent from "../components/LoadingComponent";
-import ErrorComponent from "../components/ErrorComponent";
-import CreatePhoto from "./components/CreatePhoto";
-import Photo from "./components/Photo";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-
-export type PhotoType = {
-  id: string;
-  url: string;
-  createdAt: string;
-  user: {
-    id: string;
-    email: string;
-  };
-  updatedAt: string;
-  userId: string;
-};
+import CreatePhoto from "./components/CreatePhoto";
+import ErrorComponent from "../components/ErrorComponent";
+import LoadingComponent from "../components/LoadingComponent";
+import Photo from "./components/Photo";
 
 export default function Home() {
   const auth = useContext(AuthenticationContext);
