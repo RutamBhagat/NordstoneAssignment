@@ -92,22 +92,18 @@ export default function UploadWidget({ command, photoId }: { command?: string; p
   }, []);
 
   return command === "CREATE" ? (
-    <span
-      onClick={() => {
+    <CreateButton
+      clickHandler={() => {
         // @ts-ignore
         widgetRef.current.open();
       }}
-    >
-      <CreateButton />
-    </span>
+    />
   ) : (
-    <span
-      onClick={() => {
+    <UpdateButton
+      clickHandler={() => {
         // @ts-ignore
         widgetRef.current.open();
       }}
-    >
-      <UpdateButton />
-    </span>
+    />
   );
 }

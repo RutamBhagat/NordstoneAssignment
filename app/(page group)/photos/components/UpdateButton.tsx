@@ -1,8 +1,9 @@
 import React from "react";
 
-export default function UpdateButton() {
+export default function UpdateButton({ clickHandler }: { clickHandler: () => void }) {
   return (
     <button
+      onClick={clickHandler}
       type="button"
       className="p-3 text-indigo-600 bg-indigo-50 rounded-lg duration-150 hover:bg-indigo-100 active:bg-indigo-200"
     >

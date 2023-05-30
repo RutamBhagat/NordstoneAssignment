@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import jwt from "jsonwebtoken";
-import { headers } from "next/headers";
 
-export async function GET(request: NextRequest, response: NextResponse) {
+export async function GET(request: NextRequest) {
   //Destructuring token from header
-  const headersList = headers();
-  const bearerToken = headersList.get("authorization") as string;
+  const bearerToken = request.headers.get("authorization") as string;
   const token = bearerToken.split(" ")[1];
 
   //Token decoding and extracting email from it

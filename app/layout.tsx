@@ -1,14 +1,15 @@
 import Script from "next/script";
+import { ReactNode } from "react";
 import QueryWrapper from "./auth/QueryWrapper";
 import AuthContext from "./context/AuthContext";
 import "./globals.css";
-import "react-datepicker/dist/react-datepicker.css";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html className="light" lang="en">
-      <Script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></Script>
-      <head />
+      <head>
+        <Script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></Script>
+      </head>
       <body>
         <main className="min-h-screen w-screen">
           <QueryWrapper>
