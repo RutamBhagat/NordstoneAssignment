@@ -5,7 +5,6 @@ import cloudinary from "@/lib/cloudinary";
 export async function DELETE(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const public_id = searchParams.get("public_id") as string;
-  console.log("id", public_id);
 
   // Delete a image url
   try {

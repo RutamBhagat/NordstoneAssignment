@@ -16,7 +16,7 @@ export default function UploadWidget({ command, photoId }: { command?: string; p
 
   const uploadMutation = useMutation(
     async ({ public_id, secure_url }: { public_id: string; secure_url: string }) => {
-      axios.post("/api/photos/upload", {
+      await axios.post("/api/photos/upload", {
         public_id: public_id,
         email: auth?.data?.email,
         url: secure_url,
@@ -41,12 +41,11 @@ export default function UploadWidget({ command, photoId }: { command?: string; p
   const updateMutation = useMutation(
     async ({ id, newId, secure_url }: { id: string; newId: string; secure_url: string }) => {
       try {
-        const response = await axios.post("/api/photos/update", {
+        await axios.post("/api/photos/update", {
           id: id,
           newId: newId,
           newUrl: secure_url,
         });
-        return response.data;
       } catch (error) {
         console.log(error);
       }
