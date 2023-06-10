@@ -2,6 +2,7 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
+import Slider from "../components/Slider";
 
 export default function page() {
   const [result, setResult] = useState("0");
@@ -57,23 +58,13 @@ export default function page() {
         <div className="flex flex-col justify-center items-center min-h-[600px] w-full">
           <div className="border border-t-0 border-l-0 border-r-0 border-b-2 border-gray-600 w-[500px]">
             <div className="flex justify-between items-center gap-10 m-5">
-              <label className="text-gray-600">Number 1</label>
-              <input
-                type="text"
-                onChange={(e) => {
+              <label className="text-gray-600">Number {num1}</label>
+              <Slider
+                numValue={num1}
+                changeHandler={(e: any) => {
                   let value = e.target.value;
                   setNum1(value);
                 }}
-                value={num1}
-                onKeyPress={(event) => {
-                  const pattern = /[0-9.]|\./;
-                  const inputChar = String.fromCharCode(event.charCode);
-
-                  if (!pattern.test(inputChar)) {
-                    event.preventDefault();
-                  }
-                }}
-                className="w-[150px] px-4 py-2 appearance-none outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               />
             </div>
             <div className="flex justify-between items-center gap-10 m-5">
@@ -109,23 +100,13 @@ export default function page() {
               </div>
             </div>
             <div className="flex justify-between items-center gap-10 m-5">
-              <label className="text-gray-600">Number 2</label>
-              <input
-                type="text"
-                onChange={(e) => {
+              <label className="text-gray-600">Number {num2}</label>
+              <Slider
+                numValue={num2}
+                changeHandler={(e: any) => {
                   let value = e.target.value;
                   setNum2(value);
                 }}
-                value={num2}
-                onKeyPress={(event) => {
-                  const pattern = /[0-9.]|\./;
-                  const inputChar = String.fromCharCode(event.charCode);
-
-                  if (!pattern.test(inputChar)) {
-                    event.preventDefault();
-                  }
-                }}
-                className="w-[150px] px-4 py-2 appearance-none outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               />
             </div>
           </div>

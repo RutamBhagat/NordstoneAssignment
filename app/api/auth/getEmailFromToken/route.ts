@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   //Destructuring token from body
   const body = await request.json();
   let { token } = body;

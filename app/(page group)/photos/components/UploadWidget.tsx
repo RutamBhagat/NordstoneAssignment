@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 import CreateButton from "./CreateButton";
 import UpdateButton from "./UpdateButton";
 
-export default function UploadWidget({ command, photoId }: { command?: string; photoId?: number }) {
+export default function UploadWidget({ command, photoId }: { command?: string; photoId?: string }) {
   const auth = useContext(AuthenticationContext);
   const queryClient = useQueryClient();
   const cloudinaryRef = useRef(null);
@@ -15,8 +15,9 @@ export default function UploadWidget({ command, photoId }: { command?: string; p
   const toastPostID = useRef<string | undefined>();
 
   const uploadMutation = useMutation(
-    async (secure_url: string) => {
+    async ({ public_id, secure_url }: { public_id: string; secure_url: string }) => {
       axios.post("/api/photos/upload", {
+        public_id: public_id,
         email: auth?.data?.email,
         url: secure_url,
       });
@@ -38,10 +39,11 @@ export default function UploadWidget({ command, photoId }: { command?: string; p
   );
 
   const updateMutation = useMutation(
-    async ({ photoId, secure_url }: { photoId: number; secure_url: string }) => {
+    async ({ id, newId, secure_url }: { id: string; newId: string; secure_url: string }) => {
       try {
         const response = await axios.post("/api/photos/update", {
-          id: photoId,
+          id: id,
+          newId: newId,
           newUrl: secure_url,
         });
         return response.data;
@@ -78,11 +80,19 @@ export default function UploadWidget({ command, photoId }: { command?: string; p
           (error: any, result: any) => {
             console.log("result", result);
             if (result.event === "success") {
+              console.log("result.info", result.info);
               if (command === "CREATE") {
-                uploadMutation.mutate(result.info.secure_url);
+                uploadMutation.mutate({
+                  public_id: result.info.public_id,
+                  secure_url: result.info.secure_url,
+                });
               } else {
                 if (photoId) {
-                  updateMutation.mutate({ photoId: photoId, secure_url: `${result.info.secure_url}` });
+                  updateMutation.mutate({
+                    id: photoId,
+                    newId: `${result.info.public_id}`,
+                    secure_url: `${result.info.secure_url}`,
+                  });
                 }
               }
             }

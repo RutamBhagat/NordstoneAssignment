@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { email, url } = body;
+  const { public_id, email, url } = body;
 
   const prismaUser = await prisma.user.findUnique({
     where: { email: email },
@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
   try {
     const result = await prisma.photo.create({
       data: {
+        id: public_id,
         url: url as string,
         userId: prismaUser?.id as string,
       },

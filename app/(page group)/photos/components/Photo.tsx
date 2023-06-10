@@ -66,7 +66,7 @@ export default function Photo({ photo }: { photo: PhotoType }) {
                     alt="delete-forever"
                   />
                 </button>
-                <UploadWidget photoId={Number.parseInt(photo.id)} />
+                <UploadWidget photoId={photo.id} />
               </form>
             </div>
           </div>
